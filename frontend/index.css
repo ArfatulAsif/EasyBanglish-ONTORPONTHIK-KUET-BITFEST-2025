@@ -18,37 +18,6 @@
   @apply bg-gradient-to-tr from-primary-500 to-primary-300 text-gray-800;
 }
 
-/* Custom fonts */
-@font-face {
-  font-family: "Kalpurush";
-  src: url("kalpurush.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "BenSen";
-  src: url("BenSen.ttf") format("truetype");
-}
-@font-face {
-  font-family: "BenSenHandwriting";
-  src: url("BenSenHandwriting.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Mitra";
-  src: url("mitra.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Mukti";
-  src: url("Mukti_1.99_PR.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Lohit";
-  src: url("Lohit_14-04-2007.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Nikosh Light";
-  src: url("NikoshLightBan.ttf") format("truetype");
-}
-
 /* Custom styles for Jodit editor */
 .jodit-container {
   background-color: #18181b !important;

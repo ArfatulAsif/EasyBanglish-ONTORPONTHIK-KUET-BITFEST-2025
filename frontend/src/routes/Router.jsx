@@ -13,6 +13,7 @@ import DashboardContentManagement from "../pages/DashboardContentManagement/Dash
 import CreateContent from "../pages/CreateContent/CreateContent";
 import AllContents from "../pages/AllContents/AllContents";
 import ExportedFiles from "../pages/ExportedFiles/ExportedFiles";
+import Chatbot from "../pages/Chatbot/Chatbot";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "content-management/exported-files",
         element: <ExportedFiles />,
+      },
+      {
+        path: "chatbot",
+        element: <Chatbot />,
       },
     ],
   },
