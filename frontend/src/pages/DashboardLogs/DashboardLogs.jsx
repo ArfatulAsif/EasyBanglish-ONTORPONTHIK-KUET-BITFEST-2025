@@ -48,13 +48,13 @@ const DashboardLogs = () => {
 
         {!loading && !error && (
           <>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <LogTypeSelector
                 operationTypes={operationTypes}
                 values={values}
                 setValues={setValues}
               />
-            </div>
+            </div> */}
             <Table
               aria-label="Example static collection table"
               selectionMode="single"

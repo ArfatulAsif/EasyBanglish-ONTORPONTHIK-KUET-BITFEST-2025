@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { getAllLogs } from "../services/logsServices";
 
 const useLogs = (initialPage = 1, pageSize = 20) => {
-  const [values, setValues] = useState([]);
-  const [operationTypes, setOperationTypes] = useState([]);
+  // const [values, setValues] = useState([]);
+  // const [operationTypes, setOperationTypes] = useState([]);
   const [allLogs, setAllLogs] = useState([]);
   const [logs, setLogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -18,8 +18,8 @@ const useLogs = (initialPage = 1, pageSize = 20) => {
     try {
       const { history: logs, operationTypes: types } = await getAllLogs();
 
-      setOperationTypes(Object.values(types));
-      setValues(new Set(Object.values(types)));
+      // setOperationTypes(Object.values(types));
+      // setValues(new Set(Object.values(types)));
       setCurrentPage(page);
       setTotalPages(Math.ceil(logs.length / pageSize));
 
@@ -43,22 +43,22 @@ const useLogs = (initialPage = 1, pageSize = 20) => {
     fetchLogs(currentPage);
   }, [currentPage]);
 
-  useEffect(() => {
-    const selectedValues = [...values];
-    const filteredLogs = allLogs.filter((log) =>
-      selectedValues.includes(log.operation)
-    );
-    console.log(filteredLogs);
-  }, [values]);
+  // useEffect(() => {
+  //   const selectedValues = [...values];
+  //   const filteredLogs = allLogs.filter((log) =>
+  //     selectedValues.includes(log.operation)
+  //   );
+  //   console.log(filteredLogs);
+  // }, [values]);
 
   return {
     logs,
     loading,
     currentPage,
     setCurrentPage,
-    values,
-    operationTypes,
-    setValues,
+    // values,
+    // operationTypes,
+    // setValues,
     totalPages,
     error,
     refetch: () => fetchLogs(),

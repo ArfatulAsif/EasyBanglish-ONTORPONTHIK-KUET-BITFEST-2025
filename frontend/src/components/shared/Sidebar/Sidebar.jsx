@@ -6,6 +6,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import { Avatar, Button, Tooltip } from "@nextui-org/react";
 import { Link } from "react-router";
 import { IoHome } from "react-icons/io5";
+import userImage from "../../../assets/images/user.png";
 
 const SidebarContext = createContext();
 
@@ -27,9 +28,7 @@ export default function Sidebar({ children }) {
               className={`hover:scale-105 overflow-hidden transition-all ${
                 expanded ? "w-32 h-32" : "w-0 h-0"
               }`}
-              src={
-                user?.image || "https://i.pravatar.cc/150?u=a042581f4e29026024d"
-              }
+              src={user?.image || userImage}
             />
           </div>
 
@@ -81,12 +80,7 @@ export default function Sidebar({ children }) {
 
         <div className="border-t border-default flex p-3 justify-center items-center">
           {/* User avatar */}
-          <Avatar
-            src={
-              user?.image || "https://i.pravatar.cc/150?u=a042581f4e29026024d"
-            }
-            alt="avatar"
-          />
+          <Avatar src={user?.image || userImage} alt="avatar" />
 
           <div
             className={`

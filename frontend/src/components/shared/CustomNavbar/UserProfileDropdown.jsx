@@ -8,6 +8,7 @@ import {
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Link } from "react-router";
+import userImage from "../../../assets/images/user.png";
 
 export default function UserProfileDropdown() {
   const { user, logout } = useContext(AuthContext);
@@ -21,7 +22,7 @@ export default function UserProfileDropdown() {
             isBordered
             as="button"
             className="transition-transform"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            src={user?.image || userImage}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
