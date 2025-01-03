@@ -3,7 +3,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { createContext, useContext, useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { Avatar, Button, Tooltip } from "@nextui-org/react";
+import { Avatar, Tooltip } from "@nextui-org/react";
 import { Link } from "react-router";
 import { IoHome } from "react-icons/io5";
 import userImage from "../../../assets/images/user.png";

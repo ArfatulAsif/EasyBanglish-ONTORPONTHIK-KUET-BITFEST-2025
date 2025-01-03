@@ -1,8 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageHeader from "../../components/shared/PageHeader/PageHeader";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { TiDocumentAdd } from "react-icons/ti";
 import TextEditor from "./TextEditor";
+import SpeechRecognition from "./SpeechRecognition";
+import axiosInstance from "../../utils/axiosInstance";
 
 const CreateContent = () => {
   // Breadcrumb links
@@ -33,6 +35,7 @@ const CreateContent = () => {
 
       <div className="p-4">
         <TextEditor editor={editor} content={content} setContent={setContent} />
+        <SpeechRecognition content={content} setContent={setContent} />
       </div>
     </>
   );

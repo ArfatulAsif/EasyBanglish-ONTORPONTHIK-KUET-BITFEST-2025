@@ -1,7 +1,12 @@
 import axiosInstance from "../utils/axiosInstance";
 
 export const getAllLogs = async () => {
-  const { data: response } = await axiosInstance.get("/auth/history");
+  console.log(localStorage.getItem("token"));
+  const { data: response } = await axiosInstance.get("/auth/history", {
+    params: {
+      token: localStorage.getItem("token"),
+    },
+  });
 
   console.log(response);
 
