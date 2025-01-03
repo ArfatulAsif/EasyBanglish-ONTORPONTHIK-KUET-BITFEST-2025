@@ -392,7 +392,32 @@ const openaiMiddleware = {
         console.error("Error during PDF search and AI generation:", error.message);
         throw new Error('Failed to generate response');
     }
-  }
+  },
+
+  trainBanglishToBangla: async (banglish, bangla) => {
+    try {
+        // Train the GPT model with Banglish and Bangla mapping
+        const response = await openai.chat.completions.create({
+            model: "gpt-4",
+            messages: [
+                {
+                    role: "user",
+                    content: `Here is a pair of phrases. The first is in Banglish, and the second is its actual Bangla translation. Your task is to acknowledge this input and learn from it. Do not provide a response other than "Okay". Banglish: "${banglish}", Bangla: "${bangla}".`
+                },
+            ],
+        });
+
+        // Extract the acknowledgment response
+        const acknowledgment = response.choices[0].message.content;
+
+        // Return the acknowledgment
+        return acknowledgment;
+    } catch (error) {
+        console.error("Error training with Banglish to Bangla pair:", error);
+        throw new Error("Failed to train Banglish to Bangla pair");
+    }
+  },
+
 };
 
 module.exports = openaiMiddleware;

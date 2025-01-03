@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dotenv.config({ path: "./.env" });
+app.use('/pdfs', express.static(path.join(__dirname, 'pdfs')));
 
 
 app.listen(8000, () => {
