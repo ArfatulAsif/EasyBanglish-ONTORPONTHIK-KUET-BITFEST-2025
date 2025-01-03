@@ -139,3 +139,51 @@ exports.findUserByEmail = async (req, res) => {
       res.status(500).json({ message: "Error fetching users.", error: error.message });
     }
   };
+
+exports.searchUserAndPdfs = async (req, res) => {
+    const { text } = req.body;  // The search text provided in the body (name or email)
+  
+    try {
+      if (!text) {
+        return res.status(400).json({ error: 'Search text is required' }); // 400 Bad Request if no text is provided
+      }
+  
+      // Search for users whose name or email contains the search text (case insensitive)
+      const users = await prisma.user.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                contains: text,
+                mode: 'insensitive' // Case-insensitive search
+              }
+            },
+            {
+              email: {
+                contains: text,
+                mode: 'insensitive' // Case-insensitive search
+              }
+            }
+          ]
+        },
+        include: {
+          pdfs: {
+            where: {
+              visibility: 'public' // Only include public PDFs
+            }
+          }
+        }
+      });
+  
+      if (users.length === 0) {
+        return res.status(404).json({ error: 'No users found matching the search criteria' });
+      }
+  
+      // Return the users with their public PDFs
+      res.status(200).json({ users });
+    } catch (error) {
+      console.error('Error during user search:', error.message);
+      res.status(500).json({ error: 'Failed to search users' });
+    }
+  };
+  

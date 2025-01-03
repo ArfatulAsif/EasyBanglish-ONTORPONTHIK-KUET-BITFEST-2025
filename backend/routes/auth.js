@@ -10,5 +10,6 @@ router.get('/profile',authController.findUserByEmail)
 router.get('/users',tokenValidate('admin'),authController.getAllUsers)
 router.get('/history',tokenValidate('admin'), histController.getAllHistory)
 router.get('/user/:id',authController.findUserByUserId)
+router.post('/search', authController.searchUserAndPdfs);
 
 module.exports = router;

@@ -50,7 +50,7 @@ exports.chatCreate = async (req, res) => {
       });
   
       // Check if the user exists in the Analytics model
-      const userAnalytics = await prismaClient.analytics.findUnique({
+      const userAnalytics = await prismaClient.analytics.findFirst({
         where: { userId: user_id }
       });
   
@@ -97,12 +97,13 @@ exports.messageCreateText = async (req, res) => {
       const wordCount = text.split(/\s+/).length;  // Split by whitespace and count words
   
       // Call external API to generate a response if the sender is the user
-      if (sender === 'user') {
-        const aiResponse = await axios.post(`${process.env.base_url}/ai/generate-text`, {
-          prompt: text
-        });
-        aiMessage = aiResponse.data.text;
-      }
+    //   if (sender === 'user') {
+    //     const aiResponse = await axios.post(`${process.env.base_url}/ai/generate-text`, {
+    //       prompt: text
+    //     });
+    //     aiMessage = aiResponse.data.text;
+    //   }
+     aiMessage = "ওকে"
   
       // Save the user's message
       const userMessage = await prismaClient.message.create({
@@ -127,14 +128,19 @@ exports.messageCreateText = async (req, res) => {
       }
   
       // Check if the user exists in the Analytics model
-      const userAnalytics = await prismaClient.analytics.findUnique({
+      const userAnalytics = await prismaClient.analytics.findFirst({
         where: { userId: user_id }
+      });
+
+      // Check if the user exists in the Analytics model
+      const userMessages = await prismaClient.message.findMany({
+        where: { chatId: chat_id }
       });
   
       if (userAnalytics) {
         // If the user exists, increment the word count
         await prismaClient.analytics.update({
-          where: { userId: user_id },
+          where: { id: userAnalytics.id },
           data: {
             translatedWords: userAnalytics.translatedWords + wordCount
           }
@@ -152,7 +158,7 @@ exports.messageCreateText = async (req, res) => {
       }
   
       // Return the response with the user and bot messages
-      res.status(201).json({ success: true, userMessage, botMessage: aiMessage ? aiMessage : null });
+      res.status(201).json({ success: true, userMessage, botMessage: aiMessage ? aiMessage : null, message: userMessages });
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, message: 'Internal server error' });

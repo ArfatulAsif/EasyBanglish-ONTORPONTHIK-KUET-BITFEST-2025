@@ -48,10 +48,11 @@ model Pdf {
   userId         Int
   titleBangla    String
   titleBanglish  String
+  captionBangla String
+  captionBanglish String
   time           DateTime  @default(now())
   tags           String[]
   visibility     String    @default("private") // Either "public" or "private"
-  pdfUrl         String
   banglaText     String
   mainContent    String
 
@@ -68,7 +69,7 @@ model History {
 
 model Analytics {
   id              Int       @id @default(autoincrement())
-  userId          Int
+  userId          Int       
   translatedWords Int       @default(0)
   writtenStories  Int       @default(0)
   messageCount    Int       @default(0)

@@ -90,19 +90,70 @@ exports.generateImage = async (req, res) => {
  * Expects a `text` field in the request body.
  */
 exports.generateJSON = async (req, res) => {
-  const { text } = req.body;
-
+  const { text, tags, visibility } = req.body;
   try {
+    // Check for required fields
     if (!text) {
       return res.status(400).json({ error: 'Text input is required' }); // 400 Bad Request
     }
+    if (!tags || !visibility) {
+      return res.status(400).json({ error: 'Tags and visibility are required' }); // 400 Bad Request
+    }
+
+    // Generate JSON data using AI
     const jsonData = await openaiMiddleware.generateJSON(JSON.parse(text));
-    res.status(200).json({ jsonData });
+
+    // Extract necessary fields from the generated data
+    const { titleBangla, titleBanglish, captionBangla, captionBanglish } = jsonData;
+
+    // Save the data to the database
+    const newPdf = await prisma.pdf.create({
+      data: {
+        userId: req.user.id, // Extracted from the authenticated user
+        titleBangla,
+        titleBanglish,
+        captionBangla,
+        captionBanglish,
+        time: new Date(),
+        tags, // Array of tags from the request body
+        visibility, // Visibility from the request body ("public" or "private")
+        banglaText: text,
+        mainContent: text, // Original content provided in the request body
+      },
+    });
+
+    // Check if the user has an existing Analytics record
+    const existingAnalytics = await prisma.analytics.findFirst({
+      where: { userId: req.user.id },
+    });
+
+    if (existingAnalytics) {
+      // If the user already has an analytics record, increase the writtenStories count by 1
+      await prisma.analytics.update({
+        where: { id: existingAnalytics.id },
+        data: {
+          writtenStories: existingAnalytics.writtenStories + 1,
+        },
+      });
+    } else {
+      // If the user doesn't have an analytics record, create a new one with writtenStories = 1
+      await prisma.analytics.create({
+        data: {
+          userId: req.user.id,
+          writtenStories: 1, // Starting with 1 written story
+        },
+      });
+    }
+
+    // Respond with the newly created PDF data
+    res.status(201).json({ message: 'PDF data successfully saved', data: newPdf });
   } catch (error) {
-    console.error('Error generating JSON:', error.message);
-    res.status(500).json({ error: 'Failed to generate JSON' });
+    console.error('Error saving PDF data:', error.message);
+    res.status(500).json({ error: 'Failed to save PDF data' });
   }
 };
+
+
 
 exports.generateJSONFirstMessage = async (req, res) => {
   const { text } = req.body;
@@ -160,3 +211,79 @@ exports.getText = async (req, res) => {
       res.status(500).json({ error: "Failed to process request" });
     }
   };
+
+  exports.generateTextSpellCheck = async (req, res) => {
+    try {
+      const { prompt } = req.body; // Expecting a JSON payload with 'prompt'
+      if (!prompt) {
+        return res.status(400).json({ error: "Prompt is required" });
+      }
+  
+      // Generate the voice file
+      const txt = await openaiMiddleware.generateTextWithSpellCheck(prompt);
+  
+      // Send the Cloudinary URL in the response
+      res.status(200).json(txt);
+  
+    } catch (error) {
+      console.error("Error handling text request:", error);
+      res.status(500).json({ error: "Failed to process request" });
+    }
+  };
+
+  exports.getTextPdf = async (req, res) => {
+    try {
+      const { prompt } = req.body; // Expecting a JSON payload with 'prompt'
+      if (!prompt) {
+        return res.status(400).json({ error: "Prompt is required" });
+      }
+  
+      // Generate the voice file
+      const txt = await openaiMiddleware.generateTextPdfSearch(prompt);
+  
+      // Send the Cloudinary URL in the response
+      res.status(200).json({ text: txt });
+  
+    } catch (error) {
+      console.error("Error handling text request:", error);
+      res.status(500).json({ error: "Failed to process request" });
+    }
+  };
+
+  exports.updateBanglaText = async (req, res) => {
+    const { pdfId, newBanglaText } = req.body;
+  
+    try {
+      // Check for required fields
+      if (!pdfId) {
+        return res.status(400).json({ error: 'PDF ID is required' }); // 400 Bad Request
+      }
+      if (!newBanglaText) {
+        return res.status(400).json({ error: 'New Bangla text is required' }); // 400 Bad Request
+      }
+  
+      // Find the PDF record by ID
+      const pdf = await prisma.pdf.findUnique({
+        where: { id: pdfId },
+      });
+  
+      if (!pdf) {
+        return res.status(404).json({ error: 'PDF not found' }); // 404 Not Found
+      }
+  
+      // Update the Bangla text
+      const updatedPdf = await prisma.pdf.update({
+        where: { id: pdfId },
+        data: {
+          banglaText: newBanglaText, // Update the Bangla text field
+        },
+      });
+  
+      // Respond with the updated PDF data
+      res.status(200).json({ message: 'PDF Bangla text successfully updated', data: updatedPdf });
+    } catch (error) {
+      console.error('Error updating PDF data:', error.message);
+      res.status(500).json({ error: 'Failed to update PDF data' });
+    }
+  };
+  

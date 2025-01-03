@@ -6,6 +6,8 @@ const path = require('path');
 const { writeFileSync } = require("fs");
 const cloudinary = require("cloudinary").v2;
 const axios = require("axios");
+const { PrismaClient } = require('@prisma/client');
+const prismaClient = new PrismaClient();
 
 // Configure Cloudinary
 cloudinary.config({
@@ -118,19 +120,21 @@ const openaiMiddleware = {
       const prompt = `
         Convert the given Banglish text into proper Bangla language. Based on the content, create the following:
         1. A title in Bangla with a maximum of 3-4 words.
-        2. A caption in Bangla with a length of 1-2 lines.
-        3. Provide the full paragraph in Bangla as an HTML string.
-    
+        2. The same title translated into Banglish (phonetic English representation of Bangla).
+        3. A caption in Bangla with a length of 1-2 lines.
+        4. The same caption translated into Banglish.
+        
         Input Banglish Text: "${input}"
-    
+        
         Output the result in this JSON format:
         {
-          "title": "Bangla title",
-          "caption": "Bangla caption",
-          "contentHtml": "<p>Bangla content in HTML format</p>"
+          "titleBangla": "Bangla title",
+          "titleBanglish": "Banglish title",
+          "captionBangla": "Bangla caption",
+          "captionBanglish": "Banglish caption"
         }
       `;
-  
+
       // Request OpenAI API to process the text and generate the required JSON
       const response = await openai.chat.completions.create({
         model: 'gpt-4',
@@ -140,7 +144,7 @@ const openaiMiddleware = {
   
       // Get the raw response content
       let jsonString = response.choices[0].message.content;
-      console.log('Raw response:', jsonString);
+      // console.log('Raw response:', jsonString);
   
       // Ensure JSON starts from '{' and ends at '}'
       const jsonStart = jsonString.indexOf('{');
@@ -297,7 +301,98 @@ const openaiMiddleware = {
     }
   },
 
-  
+  generateTextWithSpellCheck: async(prompt) =>{
+    try {
+      // Generate a text response to the given prompt in Bangla with spell check for Banglish
+      const response = await openai.chat.completions.create({
+          model: "gpt-4",
+          messages: [
+              {
+                  role: "user",
+                  content: `You will receive a message in Bangla, Banglish, or English. Your task is to provide the conversion of banglish into perfect Bangla without any grammatical error.
+                  It should be meaningful. Additionally, 
+                  check if there are any spelling errors in the Banglish text and provide a JSON response with two fields:
+                  - bangla: The generated Bangla response.
+                  - spelling: An array of objects with "wrong" (incorrect word) and "correction" (corrected word).
+                  If there are no errors, return an empty array in the spelling field. Here is the message: "${prompt}". Just give the response. No extra words.`
+              },
+          ],
+      });
+
+      // Extract the generated text and spell-check data
+      const generatedText = response.choices[0].message.content;
+
+      // Assuming the AI response returns a structure like:
+      // {
+      //     "bangla": "Generated Bangla text",
+      //     "spelling": [{"wrong": "word1", "correction": "word2"}]
+      // }
+      const result = JSON.parse(generatedText);
+
+      // Return the JSON response with generated Bangla text and spelling errors
+      return {
+          bangla: result.bangla,
+          spelling: result.spelling || []  // Default to an empty array if no errors
+      };
+
+    } catch (error) {
+        console.error("Error generating text with spell check:", error);
+        throw new Error("Failed to generate text with spell check");
+    }
+  },
+
+  generateTextPdfSearch: async(text) =>{
+    try {
+      if (!text) {
+          throw new Error('Search text is required'); // Ensure text is provided
+      }
+
+      // Find all public PDFs (no text filtering)
+      const pdfs = await prismaClient.pdf.findMany({
+          where: {
+              visibility: 'public' // Only public PDFs
+          },
+          include: {
+              user: true // Include user details from the User table (PDF maker name)
+          }
+      });
+
+      if (pdfs.length === 0) {
+          throw new Error('No public PDFs found');
+      }
+
+      // Prepare the PDF data for AI processing
+      const pdfData = pdfs.map(pdf => ({
+          pdfMakerName: pdf.user.name,
+          pdfTitle: pdf.titleBangla,
+          pdfCaption: pdf.captionBangla
+      }));
+
+      // Format the AI prompt based on the found PDFs
+      const aiPrompt = `You have a list of PDFs with the following details. Your task is to analyze the user's input and provide the best answer based on the information in these PDFs.\n\nPDFs: \n${JSON.stringify(pdfData)}\n\nUser's question: "${text}".\n\nProvide the most relevant answer based on these PDFs.
+       After giving the answer, also reference the PDF it was derived from, including the PDF maker's name and title. Give the solution in maximum 4 lines.`;
+
+      // Call the AI model to generate the response
+      const response = await openai.chat.completions.create({
+          model: "gpt-4",
+          messages: [
+              {
+                  role: "user",
+                  content: aiPrompt
+              }
+          ]
+      });
+
+      const generatedAnswer = response.choices[0].message.content;
+
+      // Return the generated answer with the PDF reference
+      return  generatedAnswer
+
+    } catch (error) {
+        console.error("Error during PDF search and AI generation:", error.message);
+        throw new Error('Failed to generate response');
+    }
+  }
 };
 
 module.exports = openaiMiddleware;
