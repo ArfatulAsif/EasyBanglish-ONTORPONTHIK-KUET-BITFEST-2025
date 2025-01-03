@@ -4,6 +4,8 @@ const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
 const FormData = require('form-data');
+const prisma = require('@prisma/client').PrismaClient;
+const prismaClient = new prisma();
 
 // ImgBB API key from .env file
 const IMGBB_API_KEY = process.env.IMGBB_API_KEY;
@@ -233,16 +235,42 @@ exports.getText = async (req, res) => {
 
   exports.getTextPdf = async (req, res) => {
     try {
-      const { prompt } = req.body; // Expecting a JSON payload with 'prompt'
+      const { chat_id, prompt } = req.body; // Expecting a JSON payload with 'prompt'
       if (!prompt) {
         return res.status(400).json({ error: "Prompt is required" });
       }
   
       // Generate the voice file
       const txt = await openaiMiddleware.generateTextPdfSearch(prompt);
+
+      // Save the user's message
+      const userMessage = await prismaClient.message.create({
+        data: {
+          chatId: chat_id,
+          sender: 'user',
+          text: prompt,
+          time: new Date()
+        }
+      });
   
+      // Save the bot's response if applicable
+      if (txt) {
+        await prismaClient.message.create({
+          data: {
+            chatId: chat_id,
+            sender: 'bot',
+            text: txt,
+            time: new Date()
+          }
+        });
+      }
+  
+      // Check if the user exists in the Analytics model
+      const userMessages = await prismaClient.message.findMany({
+        where: { chatId: chat_id }
+      });
       // Send the Cloudinary URL in the response
-      res.status(200).json({ text: txt });
+      res.status(200).json({ message: userMessages });
   
     } catch (error) {
       console.error("Error handling text request:", error);

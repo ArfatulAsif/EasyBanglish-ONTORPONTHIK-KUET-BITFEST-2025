@@ -357,10 +357,7 @@ const openaiMiddleware = {
           }
       });
 
-      if (pdfs.length === 0) {
-          throw new Error('No public PDFs found');
-      }
-
+    
       // Prepare the PDF data for AI processing
       const pdfData = pdfs.map(pdf => ({
           pdfMakerName: pdf.user.name,
