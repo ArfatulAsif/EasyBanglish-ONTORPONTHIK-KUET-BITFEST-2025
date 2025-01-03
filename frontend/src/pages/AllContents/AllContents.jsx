@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 import PageHeader from "../../components/shared/PageHeader/PageHeader";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { IoDocumentsOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import {
   Button,
@@ -18,6 +18,8 @@ import {
 import { formatDate } from "../../utils/formatDate";
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { FaRegFilePdf } from "react-icons/fa";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 const AllContents = () => {
   const [contents, setContents] = useState([]);
@@ -38,6 +40,28 @@ const AllContents = () => {
   function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
+  const generatePdf = async () => {
+    const content = `<p><strong style="font-size: 32px;">amar bajarer list</strong></p><p><strong style="font-size: 32px;"><br></strong></p><ol><li><strong style="font-size: 16px;">alu</strong></li><li><strong style="font-size: 16px;">peyaj</strong></li><li><strong style="font-size: 16px;">komola</strong></li></ol><p><br></p><p><br></p>`;
+
+    // Use html2canvas to capture the HTML content
+    const canvas = await html2canvas(content, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    console.log("ok");
+
+    // Create a new PDF document
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    // Add the image to the PDF
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    // Open the PDF in a new tab
+    const pdfBlob = pdf.output("blob");
+    const pdfURL = URL.createObjectURL(pdfBlob);
+    console.log(pdfURL);
+    window.open(pdfURL, "_blank");
+  };
 
   useEffect(() => {
     axiosInstance
@@ -118,6 +142,7 @@ const AllContents = () => {
                             showArrow
                           >
                             <Button
+                              onPress={generatePdf}
                               isIconOnly
                               aria-label="View"
                               color="primary"
