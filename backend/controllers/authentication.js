@@ -143,7 +143,7 @@ exports.findUserByEmail = async (req, res) => {
 
 exports.searchUserAndPdfs = async (req, res) => {
     const { text } = req.body;  // The search text provided in the body (name or email)
-  
+    //console.log(text)
     try {
       if (!text) {
         return res.status(400).json({ error: 'Search text is required' }); // 400 Bad Request if no text is provided
@@ -175,10 +175,6 @@ exports.searchUserAndPdfs = async (req, res) => {
           }
         }
       });
-  
-      if (users.length === 0) {
-        return res.status(404).json({ error: 'No users found matching the search criteria' });
-      }
   
       // Return the users with their public PDFs
       res.status(200).json({ users });

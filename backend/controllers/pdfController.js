@@ -103,6 +103,25 @@ exports.getUserPDFs = async (req, res) => {
     }
   };
 
+// Get all PDFs for the logged-in user
+exports.getUserPublicPDFs = async (req, res) => {
+    const userId = req.query.userId;
+    //console.log(userId)
+    try {
+      const userPDFs = await prisma.pdf.findMany({
+        where: { userId: parseInt(userId) },
+        include: {
+          user: true, // Include the related user data
+        },
+      });
+  
+      return res.status(200).json({ userPDFs });
+    } catch (error) {
+      console.error("Error fetching user PDFs:", error.message);
+      return res.status(500).json({ error: "Failed to fetch user PDFs" });
+    }
+  };
+
 // Get unique PDF content by ID
 exports.getPDFById = async (req, res) => {
     const { id } = req.params;
@@ -191,8 +210,8 @@ exports.searchPdfs = async (req, res) => {
             { captionBangla: { contains: searchText, mode: 'insensitive' } },
             { captionBanglish: { contains: searchText, mode: 'insensitive' } },
             { banglaText: { contains: searchText, mode: 'insensitive' } },
-            { banglaTitle: { contains: searchText, mode: 'insensitive' } },
-            { banglishTitle: { contains: searchText, mode: 'insensitive' } },
+            { titleBangla: { contains: searchText, mode: 'insensitive' } },
+            { titleBanglish: { contains: searchText, mode: 'insensitive' } },
           ],
         },
         include: {
