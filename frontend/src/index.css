@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.darkMode {
+  @apply dark text-foreground bg-background;
+}
+
+* {
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.primary-gradient {
+  @apply bg-gradient-to-tr from-primary-500 to-primary-300 text-gray-800;
+}
+
+/* Custom styles for Jodit editor */
+.jodit-container {
+  background-color: #18181b !important;
+  color: red !important;
+  border: 1px solid #444 !important;
+  border-radius: 32px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.jodit-wysiwyg {
+  background-color: #18181b !important;
+  color: #d4d4d8 !important;
+}
+
+.jodit-toolbar-button {
+  background-color: #353538 !important;
+  color: #d4d4d8 !important;
+  border-radius: 4px;
+}
+
+.jodit-toolbar-button:hover {
+  background-color: black !important;
+  color: #18181b !important;
+}
+
+.jodit-placeholder {
+  color: #818cf8 !important;
+  font-style: italic;
+}
+
+/* Classes To Disable Tailwind Styling */
+.no-tailwindcss {
+  color: #818cf8;
+}
+.no-tailwindcss table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.no-tailwindcss th,
+.no-tailwindcss td {
+  border: 1px solid black; /* Default table border */
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.no-tailwindcss th {
+  font-weight: bold;
+}
+
+.no-tailwindcss ul {
+  list-style-type: disc;
+  margin-left: 40px;
+  padding-left: 20px;
+  /* color: red; */
+}
+
+.no-tailwindcss ol {
+  list-style-type: decimal;
+  margin-left: 40px;
+  padding-left: 20px;
+}
+
+.no-tailwindcss li::marker {
+  color: #d4d4d8;
+}
+
+.no-tailwindcss p {
+  margin: 1em 0;
+}
+
+.no-tailwindcss h1,
+.no-tailwindcss h2,
+.no-tailwindcss h3,
+.no-tailwindcss h4,
+.no-tailwindcss h5,
+.no-tailwindcss h6 {
+  font-weight: bold;
+  margin: 0.67em 0;
+  line-height: 1.2;
+}
+
+.no-tailwindcss h1 {
+  font-size: 2em;
+}
+.no-tailwindcss h2 {
+  font-size: 1.5em;
+}
+.no-tailwindcss h3 {
+  font-size: 1.17em;
+}
+.no-tailwindcss h4 {
+  font-size: 1em;
+}
+.no-tailwindcss h5 {
+  font-size: 0.83em;
+}
+.no-tailwindcss h6 {
+  font-size: 0.67em;
+}
+
+.no-tailwindcss a {
+  color: blue;
+  text-decoration: underline;
+}
+
+.no-tailwindcss img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  border-style: none;
+}
+
+.no-tailwindcss blockquote {
+  margin: 1em 40px;
+  padding: 0;
+  border-left: 4px solid #ccc;
+  color: #666;
+}
+
+.no-tailwindcss code,
+.no-tailwindcss pre {
+  font-family: monospace;
+  background: #f5f5f5;
+  padding: 2px 4px;
+}
+
+.no-tailwindcss pre {
+  overflow: auto;
+}
+
+.no-tailwindcss strong {
+  font-weight: bold;
+}
