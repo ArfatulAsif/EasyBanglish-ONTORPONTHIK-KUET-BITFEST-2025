@@ -1,4 +1,3 @@
-import { Button } from "@nextui-org/react";
 import JoditEditor from "jodit-react";
 import { useMemo } from "react";
 
@@ -42,14 +41,6 @@ const TextEditor = ({ editor, content, setContent }) => {
           theme: "dark",
         }}
       />
-      <Button
-        color="primary"
-        onPress={() => {
-          console.log(content);
-        }}
-      >
-        Button
-      </Button>
     </div>
   );
 };
