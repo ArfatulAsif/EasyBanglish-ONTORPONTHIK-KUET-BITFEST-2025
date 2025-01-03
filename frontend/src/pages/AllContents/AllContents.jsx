@@ -20,10 +20,13 @@ import { formatDate } from "../../utils/formatDate";
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { FaRegFilePdf } from "react-icons/fa";
 import PageLoadingSpinner from "../../components/shared/PageLoadingSpinner/PageLoadingSpinner";
+import { useNavigate } from "react-router";
 
 const AllContents = () => {
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const breadcrumbLinks = [
     {
@@ -54,9 +57,8 @@ const AllContents = () => {
       `<div>
             <h1>${titleBangla}</h1>
             <h2>${captionBangla}</h2>
-          </div>` + JSON.parse(banglaText);
+          </div>` + banglaText;
 
-    console.log(finalPdf);
     axiosInstance
       .post(`/pdf/create`, {
         pdf_id: id,
@@ -83,6 +85,10 @@ const AllContents = () => {
       });
   }, []);
 
+  const handleEdit = (id) => {
+    navigate(`/dashboard/content-management/new-content?id=${id}`);
+  };
+
   return (
     <>
       <div>
@@ -107,6 +113,7 @@ const AllContents = () => {
               <TableHeader>
                 <TableColumn>#</TableColumn>
                 <TableColumn>Title</TableColumn>
+                <TableColumn>Caption</TableColumn>
                 <TableColumn>Visibility</TableColumn>
                 <TableColumn>Date</TableColumn>
                 <TableColumn>Action</TableColumn>
@@ -120,9 +127,10 @@ const AllContents = () => {
                         <TableCell>{idx + 1}</TableCell>
                         <TableCell>
                           <span className="hover:text-primary hover:underline cursor-pointer">
-                            {c?.captionBangla}
+                            {c?.titleBangla}
                           </span>
                         </TableCell>
+                        <TableCell>{c?.captionBangla}</TableCell>
                         <TableCell>
                           {capitalizeFirstLetter(c?.visibility)}
                         </TableCell>
@@ -180,6 +188,7 @@ const AllContents = () => {
                               showArrow
                             >
                               <Button
+                                onPress={() => handleEdit(c.id)}
                                 isIconOnly
                                 aria-label="Edit"
                                 color="success"

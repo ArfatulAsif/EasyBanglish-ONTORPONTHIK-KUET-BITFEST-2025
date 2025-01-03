@@ -1,3 +1,4 @@
+import { FaWpexplorer } from "react-icons/fa6";
 import { LuHeartHandshake } from "react-icons/lu";
 import { Link, useLocation } from "react-router";
 import { SidebarItem } from "./Sidebar";
@@ -25,6 +26,15 @@ const UserSidebar = () => {
           icon={<MdOutlineDocumentScanner />}
           text="Content Management"
           active={location?.pathname.includes("/dashboard/content-management")}
+        />
+      </Link>
+
+      {/* Explore Tab */}
+      <Link to="/dashboard/explore">
+        <SidebarItem
+          icon={<FaWpexplorer />}
+          text="Explore"
+          active={location?.pathname.includes("/dashboard/explore")}
         />
       </Link>
 

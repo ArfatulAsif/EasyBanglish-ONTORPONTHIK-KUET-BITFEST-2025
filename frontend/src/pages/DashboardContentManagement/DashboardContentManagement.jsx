@@ -40,7 +40,7 @@ const DashboardContentManagement = () => {
         <PageHeader breadcrumbLinks={breadcrumbLinks} />
       </div>
 
-      <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+      <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
         {/* Create New Content */}
         <SectionCard
           title={"Create New Content"}

@@ -8,7 +8,7 @@ import { Button } from "@nextui-org/react";
 import axiosInstance from "../../utils/axiosInstance";
 import { MdErrorOutline } from "react-icons/md";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 const CreateContent = () => {
   const [loading, setLoading] = useState();
@@ -33,9 +33,14 @@ const CreateContent = () => {
 
   // States
   const [content, setContent] = useState("");
+  const { id } = useParams();
 
   // hooks
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(id);
+  }, [id]);
 
   const handleTranslate = () => {
     setLoading(true);
@@ -113,7 +118,7 @@ const CreateContent = () => {
               handleSaveAndExport();
             }}
           >
-            Save And Export
+            Save
           </Button>
         </div>
 

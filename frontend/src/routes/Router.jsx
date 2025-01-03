@@ -16,6 +16,7 @@ import ExportedFiles from "../pages/ExportedFiles/ExportedFiles";
 import Chatbot from "../pages/Chatbot/Chatbot";
 import Contribute from "../pages/Contribute/Contribute";
 import VerifyContributions from "../pages/VerifyContributions/VerifyContributions";
+import Explore from "../pages/Explore/Explore";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/verify-contributions",
         element: <VerifyContributions />,
+      },
+      {
+        path: "explore",
+        element: <Explore />,
       },
     ],
   },
