@@ -25,6 +25,25 @@ export default function RootLayout() {
             ),
           }}
         />
+
+        <Stack.Screen
+          name="profile"
+          options={{
+            header: () => (
+              <CustomHeader onMenuPress={() => setSidebarVisible(true)} />
+            ),
+          }}
+        />
+
+        <Stack.Screen
+          name="chat"
+          options={{
+            header: () => (
+              <CustomHeader onMenuPress={() => setSidebarVisible(true)} />
+            ),
+          }}
+        />
+
         {/* <Stack.Screen
           name="humidity"
           options={{
