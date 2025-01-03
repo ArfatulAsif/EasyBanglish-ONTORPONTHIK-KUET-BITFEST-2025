@@ -18,6 +18,9 @@ const Register = ({ setSelected }) => {
 
     await registerUser(name, email, password);
     setIsLoading(false);
+
+    // Reset the form
+    form.reset();
   };
 
   return (
