@@ -65,13 +65,13 @@ const HomeScreen = () => {
       <Text style={styles.welcomeText}>Welcome, {userData.user.name}!</Text>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => router.push('/write')}>
-          <Ionicons name="create-outline" size={24} color="#fff" />
-          <Text style={styles.buttonText}>Write</Text>
+        <TouchableOpacity style={styles.button} onPress={() => router.push('/finduser')}>
+          <Ionicons name="people-circle-outline" size={24} color="#fff" />
+          <Text style={styles.buttonText}>Find User</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => router.push('/find')}>
-          <Ionicons name="search-outline" size={24} color="#fff" />
-          <Text style={styles.buttonText}>Find</Text>
+        <TouchableOpacity style={styles.button} onPress={() => router.push('/findpdf')}>
+          <Ionicons name="reader-outline" size={24} color="#fff" />
+          <Text style={styles.buttonText}>Find PDFs</Text>
         </TouchableOpacity>
       </View>
 

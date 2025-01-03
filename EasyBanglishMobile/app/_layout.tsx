@@ -44,6 +44,33 @@ export default function RootLayout() {
           }}
         />
 
+        <Stack.Screen
+          name="finduser"
+          options={{
+            header: () => (
+              <CustomHeader onMenuPress={() => setSidebarVisible(true)} />
+            ),
+          }}
+        />
+
+      <Stack.Screen
+          name="findpdf"
+          options={{
+            header: () => (
+              <CustomHeader onMenuPress={() => setSidebarVisible(true)} />
+            ),
+          }}
+        />
+
+        <Stack.Screen
+          name="userpage"
+          options={{
+            header: () => (
+              <CustomHeader onMenuPress={() => setSidebarVisible(true)} />
+            ),
+          }}
+        />
+
         {/* <Stack.Screen
           name="humidity"
           options={{
