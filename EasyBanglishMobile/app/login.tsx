@@ -1,112 +1,99 @@
-import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, FlatList, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, Image, TouchableOpacity, Alert, StatusBar, ActivityIndicator, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
+import tw from 'twrnc';
 
-const FindUserPage = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeUserId, setActiveUserId] = useState(null);  // State for tracking active user
+const LoginScreen = () => {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const users = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-    { id: 3, name: "James Bond" },
-    { id: 4, name: "Emily Davis" },
-  ];
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://192.168.14.51:8000/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const handleSearch = () => {
-    // Perform any search logic if needed
-  };
-
-  const navigateToUserProfile = (userId) => {
-    router.push(`/userProfile/${userId}`);
+      if (response.status === 200) {
+        const data = await response.json();
+        await AsyncStorage.setItem('data', JSON.stringify(data));
+        Alert.alert('Success', 'Logged in successfully');
+        console.log(data);
+        router.replace('/home');
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || 'Invalid login credentials');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setErrorMessage(error.message || 'An error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
+    <View style={tw`flex-1 bg-gray-200`}>
+      <StatusBar hidden={false} />
+      <View style={tw`flex-1 justify-center items-center px-6`}>
+        <Text style={tw`text-3xl font-bold text-gray-800 mb-6`}>EasyBanglish</Text>
+        
+        
         <TextInput
-          style={styles.input}
-          placeholder="Search Users"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
+          style={tw`w-full h-12 border border-gray-300 rounded-lg px-4 bg-white mb-4`}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
         />
-        <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
-          <Ionicons name="search" size={20} color="white" />
+        <TextInput
+          style={tw`w-full h-12 border border-gray-300 rounded-lg px-4 bg-white mb-4`}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        
+        {errorMessage ? (
+          <Text style={tw`text-red-500 text-sm mb-4`}>{errorMessage}</Text>
+        ) : null}
+
+        <TouchableOpacity
+          style={tw`w-full h-12 bg-blue-500 rounded-lg justify-center items-center mb-4`}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={tw`text-white text-lg font-semibold`}>Login</Text>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => router.push('/signup')}>
+          <Text style={tw`text-gray-800`}>
+            Don't have an account?{' '}
+            <Text style={tw`text-blue-600 font-semibold`}>Create</Text>
+          </Text>
+        </TouchableOpacity>
+
+        {/* Add an option for language change if needed */}
+        <TouchableOpacity onPress={() => {/* Add language toggle functionality */}}>
+          <Text style={tw`text-gray-600 mt-4`}>
+            <Text style={tw`text-blue-600 font-semibold`}>Switch to Bangla</Text>
+          </Text>
         </TouchableOpacity>
       </View>
-
-      <FlatList
-        data={filteredUsers}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              styles.userItem,
-              item.id === activeUserId && styles.activeUserItem,  // Add active style when clicked
-            ]}
-            onPress={() => {
-              setActiveUserId(item.id);  // Set active user ID when clicked
-              navigateToUserProfile(item.id);
-            }}
-            activeOpacity={0.6}  // Change opacity when pressed
-          >
-            <Ionicons name="person-circle" size={30} color="#000" />
-            <Text style={styles.userName}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-      />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F5FCFF",
-    padding: 10,
-  },
-  searchBar: {
-    flexDirection: "row",
-    marginBottom: 10,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 10,
-  },
-  searchButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#007bff",
-    borderRadius: 5,
-    marginLeft: 10,
-    padding: 10,
-  },
-  userItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    backgroundColor: "#fff",  // Default background color
-  },
-  activeUserItem: {
-    backgroundColor: "#dcdcdc",  // Light background color when clicked (active state)
-  },
-  userName: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: "#333",
-  },
-});
-
-export default FindUserPage;
+export default LoginScreen;
