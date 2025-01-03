@@ -13,4 +13,6 @@ router.get('/verified', tokenValidate('admin'), translationController.showVerifi
 // Route to verify a translation
 router.post('/verify', tokenValidate('admin'), translationController.verifyTranslation);
 
+router.post('/delete',tokenValidate('admin'), translationController.deleteTranslation)
+
 module.exports = router;
