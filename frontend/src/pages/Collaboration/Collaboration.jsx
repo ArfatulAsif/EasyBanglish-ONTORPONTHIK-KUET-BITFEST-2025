@@ -95,27 +95,28 @@ const Collaboration = () => {
       collaborationId,
       userId,
     };
+    localStorage.setItem("collab", collaborationId);
+    navigate("/dashboard/content-management/collaborate/collaboration-box");
+    // axiosInstance
+    //   .post("/col/collaborations/add-user", requestBody) // Use the correct endpoint
+    //   .then((res) => {
+    //     const { success, collaboration } = res.data;
   
-    axiosInstance
-      .post("/col/collaborations/add-user", requestBody) // Use the correct endpoint
-      .then((res) => {
-        const { success, collaboration } = res.data;
+    //     if (success) {
+    //       // Save the collaboration ID in localStorage
+    //       localStorage.setItem("collab", collaborationId);
   
-        if (success) {
-          // Save the collaboration ID in localStorage
-          localStorage.setItem("collab", collaborationId);
-  
-          // Navigate to the specified route
-          navigate("/dashboard/content-management/collaborate/collaboration-box");
-        } else {
-          console.error("Failed to join collaboration");
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error joining collaboration:", err);
-        setLoading(false);
-      });
+    //       // Navigate to the specified route
+    //       navigate("/dashboard/content-management/collaborate/collaboration-box");
+    //     } else {
+    //       console.error("Failed to join collaboration");
+    //     }
+    //     setLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     console.error("Error joining collaboration:", err);
+    //     setLoading(false);
+    //   });
   };
   
 

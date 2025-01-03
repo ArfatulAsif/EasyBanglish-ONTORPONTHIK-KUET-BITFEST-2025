@@ -25,6 +25,7 @@ const createCollaboration = async (req, res) => {
 const addUserToCollaboration = async (req, res) => {
   try {
     const { collaborationId, userId } = req.body;
+    console.log(collaborationId, userId)
 
     const collaboration = await prisma.collaboration.update({
       where: { id: collaborationId },
@@ -34,6 +35,7 @@ const addUserToCollaboration = async (req, res) => {
         },
       },
     });
+    console.log(collaboration)
 
     res.status(200).json({ success: true, collaboration });
   } catch (error) {
@@ -63,7 +65,7 @@ const updateCollaborationContent = async (req, res) => {
     const { content } = req.body;
 
     const collaboration = await prisma.collaboration.update({
-      where: { id: parseInt(id, 10) },
+      where: { id: parseInt(id) },
       data: { content },
     });
 
