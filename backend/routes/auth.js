@@ -11,5 +11,7 @@ router.get('/users',tokenValidate('admin'),authController.getAllUsers)
 router.get('/history',tokenValidate('admin'), histController.getAllHistory)
 router.get('/user/:id',authController.findUserByUserId)
 router.post('/search', authController.searchUserAndPdfs);
+router.get('/analytics', tokenValidate('user'), authController.getUserAnalytics);
+router.get('/all', tokenValidate('admin'), authController.getAllAnalytics);
 
 module.exports = router;

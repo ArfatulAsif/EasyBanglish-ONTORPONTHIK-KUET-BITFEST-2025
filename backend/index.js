@@ -19,3 +19,4 @@ app.use("/ai", require("./routes/ai"));
 app.use("/pay", require("./routes/payment"));
 app.use("/chat",require("./routes/chat"));
 app.use("/pdf",require("./routes/pdf"));
+app.use("/translate",require("./routes/translation"));

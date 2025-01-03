@@ -19,6 +19,7 @@ model User {
   chats     Chat[]
   pdfs      Pdf[]
   analytics Analytics[]
+  userTranslation UserTranslation[]
 }
 
 model Chat {
@@ -75,4 +76,15 @@ model Analytics {
   messageCount    Int       @default(0)
 
   user            User      @relation(fields: [userId], references: [id])
+}
+
+model UserTranslation {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  banglish  String
+  bangla    String
+  verify    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
 }

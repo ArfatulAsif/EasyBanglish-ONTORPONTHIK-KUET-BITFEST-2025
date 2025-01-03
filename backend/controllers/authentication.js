@@ -186,4 +186,47 @@ exports.searchUserAndPdfs = async (req, res) => {
       res.status(500).json({ error: 'Failed to search users' });
     }
   };
+
+// Get analytics for a specific user
+exports.getUserAnalytics = async (req, res) => {
+  const id = req.user.id;
+
+  try {
+    const analytics = await prisma.analytics.findFirst({
+      where: { userId: parseInt(id) },
+      include: {
+        user: true, // Include user details
+      },
+    });
+
+    if (!analytics) {
+      return res.status(404).json({ error: 'Analytics data not found for this user' });
+    }
+
+    res.status(200).json({ data: analytics });
+  } catch (error) {
+    console.error('Error fetching user analytics:', error.message);
+    res.status(500).json({ error: 'Failed to fetch user analytics' });
+  }
+};
+
+// Get analytics for all users
+exports.getAllAnalytics = async (req, res) => {
+  try {
+    const allAnalytics = await prisma.analytics.findMany({
+      include: {
+        user: true, // Include user details
+      },
+    });
+
+    if (allAnalytics.length === 0) {
+      return res.status(404).json({ error: 'No analytics data found' });
+    }
+
+    res.status(200).json({ data: allAnalytics });
+  } catch (error) {
+    console.error('Error fetching all analytics:', error.message);
+    res.status(500).json({ error: 'Failed to fetch all analytics' });
+  }
+};
   
