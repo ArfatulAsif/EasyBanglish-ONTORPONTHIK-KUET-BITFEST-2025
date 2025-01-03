@@ -34,6 +34,12 @@ const ChatPage = () => {
     }
   };
 
+  const clearChats = () => {
+    // Add the chat clearing functionality later
+    console.log("Chats cleared");
+    setMessages([]);  // Clear all messages
+  };
+
   const renderItem = ({ item }) => {
     return (
       <View
@@ -57,8 +63,12 @@ const ChatPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name="logo-reddit" size={35} color="#FFFFFF"  />
+        <Ionicons name="logo-reddit" size={35} color="#FFFFFF" />
         <Text style={styles.headerText}>Chat with Bot</Text>
+        {/* Circular Button to Clear Chats */}
+        <TouchableOpacity style={styles.clearButton} onPress={clearChats}>
+          <Ionicons name="close-circle" size={30} color="#fff" />
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -72,7 +82,7 @@ const ChatPage = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.inputContainer}
       >
-        {isVoiceInput ? null : (  // Hide the TextInput when in voice input mode
+         
           <TextInput
             style={styles.input}
             value={inputText}
@@ -80,18 +90,16 @@ const ChatPage = () => {
             placeholder="Type a message..."
             placeholderTextColor="#999"
           />
-        )}
+        
 
         <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
-            <Ionicons name="send" size={24} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.firstButton} onPress={() => {}}>
-            <Ionicons name="reader-outline" size={24} color="#fff" />
+          <TouchableOpacity style={styles.voiceButton} onPress={handleVoiceInput}>
+            <Ionicons name="receipt-outline" size={24} color="#fff" />
           </TouchableOpacity>
 
-          
-          
+          <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+            <Ionicons name="send" size={24} color="#fff" />
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -110,12 +118,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#4C6EF5',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
+    justifyContent: 'space-between',  // This will ensure the button is positioned to the right
   },
   headerText: {
     fontSize: 22,
     color: '#fff',
-    marginLeft: 10,
     fontWeight: 'bold',
+  },
+  clearButton: {
+    backgroundColor: '#FF4D4D', // You can adjust the color as needed
+    padding: 10,
+    borderRadius: 25, // Circular button
   },
   chatList: {
     paddingHorizontal: 10,
@@ -165,12 +178,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  firstButton: {
-    backgroundColor: '#4C6EF5',
-    padding: 10,
-    borderRadius: 20,
-    marginRight: 10,
   },
   voiceButton: {
     backgroundColor: '#4C6EF5',
