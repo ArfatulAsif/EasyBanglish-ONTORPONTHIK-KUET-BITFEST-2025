@@ -1,24 +1,37 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, FlatList, StyleSheet, ScrollView } from "react-native";
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, ScrollView, ActivityIndicator, Linking } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const FindPDFPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPDFs, setFilteredPDFs] = useState([]);
-  
-  const savedPDFs = [
-    "User Manual - EasyBanglish.pdf",
-    "Bangla to Banglish Guide.pdf",
-    "Introduction to React Native.pdf",
-    "EasyBanglish Features Overview.pdf",
-    "React Navigation Documentation.pdf",
-  ];
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = () => {
-    const results = savedPDFs.filter(pdf =>
-      pdf.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredPDFs(results);
+  const handleSearch = async () => {
+    setLoading(true);
+    setFilteredPDFs([]); // Clear previous results
+    try {
+      const response = await fetch("http://192.168.14.51:8000/pdf/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: searchQuery }),
+      });
+
+      const responseData = await response.json();
+      if (response.ok && responseData) {
+        setFilteredPDFs(responseData);
+      } else {
+        console.error("Error fetching PDFs:", responseData.message || "Unknown error");
+        setFilteredPDFs([]);
+      }
+    } catch (error) {
+      console.error("Error during API call:", error);
+      setFilteredPDFs([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,17 +48,29 @@ const FindPDFPage = () => {
         </TouchableOpacity>
       </View>
 
-      {filteredPDFs.length === 0 && searchQuery !== "" ? (
+      {loading ? (
+        <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 20 }} />
+      ) : filteredPDFs.length === 0 && searchQuery !== "" ? (
         <Text style={styles.noResults}>No PDFs found</Text>
       ) : (
         <>
-          <Text style={styles.sectionHeader}>Public Contents Search</Text>
+          <Text style={styles.sectionHeader}>Search Results</Text>
           <View style={styles.pdfContainer}>
             {filteredPDFs.map((pdf, index) => (
-              <View key={index} style={styles.pdfItem}>
+              <TouchableOpacity
+                key={index}
+                style={styles.pdfItem}
+                onPress={() => {
+                  const pdfLink = `http://192.168.14.51:8000/pdfs/${pdf.id}-${pdf.titleBangla}.pdf`;
+                    Linking.openURL().catch((err) =>
+                      console.error("Failed to open link:", err)
+                    );
+                  
+                }}
+              >
                 <Ionicons name="document-outline" size={40} color="#FF5733" />
-                <Text style={styles.pdfText}>{pdf}</Text>
-              </View>
+                <Text style={styles.pdfText}>{pdf.id} - {pdf.titleBangla}.pdf</Text>
+              </TouchableOpacity>
             ))}
           </View>
         </>
@@ -102,11 +127,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     backgroundColor: "#fff",
+    marginBottom: 10,
+    borderRadius: 5,
+    elevation: 2,
   },
   pdfText: {
     marginLeft: 10,
     fontSize: 16,
     color: "#333",
+    flexWrap: "wrap",
+    flex: 1,
   },
 });
 
