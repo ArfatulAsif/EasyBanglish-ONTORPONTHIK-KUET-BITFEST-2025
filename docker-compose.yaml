@@ -1,0 +1,23 @@
+# The version of the docker-compose.
+version: "3.8"
+# Telling docker-compose to build the client and server images and run them in containers.
+services:
+  frontend:
+    # Telling docker-compose to build the client image using the Dockerfile in the client directory.
+    build: ./frontend
+    # Giving the container a name.
+    container_name: EasyBanglishClient
+    # Mapping the port 3000 on the host machine to the port 3000 on the container.
+    ports:
+      - "5173:5173"
+    
+    # Allows you to run container in detached mode.
+    stdin_open: true
+    tty: true
+  backend:
+    # Telling docker-compose to build the client image using the Dockerfile in the server directory.
+    build: ./backend
+    container_name: EasyBanglishServer
+    ports:
+      - "8000:8000"
+    
