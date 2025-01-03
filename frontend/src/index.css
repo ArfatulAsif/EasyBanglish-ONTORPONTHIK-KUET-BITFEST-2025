@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.darkMode {
+  @apply dark text-foreground bg-background;
+}
+
+* {
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.primary-gradient {
+  @apply bg-gradient-to-tr from-primary-500 to-primary-300 text-gray-800;
+}
