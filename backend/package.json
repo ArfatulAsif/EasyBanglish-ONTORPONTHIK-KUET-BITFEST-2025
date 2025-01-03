@@ -14,6 +14,7 @@
     "@prisma/client": "^6.1.0",
     "@supabase/supabase-js": "^2.47.10",
     "axios": "^1.7.9",
+    "backend": "file:",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",
     "cors": "^2.8.5",
