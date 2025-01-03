@@ -4,6 +4,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineManageHistory } from "react-icons/md";
 import { Link, useLocation } from "react-router";
 import { SidebarItem } from "./Sidebar";
+import { TiTickOutline } from "react-icons/ti";
 
 const AdminSidebar = () => {
   const location = useLocation();
@@ -43,6 +44,15 @@ const AdminSidebar = () => {
           icon={<IoSettingsOutline />}
           text="Settings"
           active={location?.pathname === "/dashboard/settings"}
+        />
+      </Link>
+
+      {/* Verify contribution Tab */}
+      <Link to="/dashboard/verify-contributions">
+        <SidebarItem
+          icon={<TiTickOutline />}
+          text="Verify Contributions"
+          active={location?.pathname === "/dashboard/verify-contributions"}
         />
       </Link>
     </div>

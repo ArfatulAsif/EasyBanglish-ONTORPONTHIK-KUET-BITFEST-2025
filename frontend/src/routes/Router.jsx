@@ -14,6 +14,8 @@ import CreateContent from "../pages/CreateContent/CreateContent";
 import AllContents from "../pages/AllContents/AllContents";
 import ExportedFiles from "../pages/ExportedFiles/ExportedFiles";
 import Chatbot from "../pages/Chatbot/Chatbot";
+import Contribute from "../pages/Contribute/Contribute";
+import VerifyContributions from "../pages/VerifyContributions/VerifyContributions";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +81,14 @@ const router = createBrowserRouter([
       {
         path: "chatbot",
         element: <Chatbot />,
+      },
+      {
+        path: "contribute",
+        element: <Contribute />,
+      },
+      {
+        path: "/dashboard/verify-contributions",
+        element: <VerifyContributions />,
       },
     ],
   },

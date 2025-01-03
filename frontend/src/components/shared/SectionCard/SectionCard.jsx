@@ -1,6 +1,15 @@
 import { Link } from "react-router";
 
-const SectionCard = ({ title, icon, to, total, loading, error, hideTotal }) => {
+const SectionCard = ({
+  title,
+  icon,
+  to,
+  total,
+  loading,
+  error,
+  hideTotal,
+  extraText,
+}) => {
   return (
     <Link to={to}>
       <article className="rounded-xl bg-[#18181B] p-4 border border-default sm:p-6 lg:p-8">
@@ -22,6 +31,7 @@ const SectionCard = ({ title, icon, to, total, loading, error, hideTotal }) => {
                 <span className="loading loading-dots loading-md"></span>
               )}
               {!loading && !error && !hideTotal && `Total: ${total}`}
+              {hideTotal && `${extraText}`}
               {!loading && error && (
                 <span className="text-red-500">{error}</span>
               )}

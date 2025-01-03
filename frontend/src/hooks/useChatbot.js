@@ -54,8 +54,8 @@ const useChatbot = () => {
 
     try {
       const data = await addNewMessage(chatId, message);
-
-      await fetchChats();
+      setRefetch(!refetch);
+      return data;
     } catch (err) {
       const errorMessage = err?.response?.data?.message;
       setError(errorMessage || "Failed to send message.");

@@ -161,6 +161,7 @@ const Chatbot = () => {
               <div className="h-[15%] flex flex-col justify-end">
                 {selectedChat && (
                   <ChatbotTextBox
+                    chats={chats}
                     selectedChat={selectedChat}
                     setSelectedChat={setSelectedChat}
                   />

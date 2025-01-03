@@ -4,7 +4,7 @@ import PageHeader from "../../components/shared/PageHeader/PageHeader";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance, { serverUrl } from "../../utils/axiosInstance";
 
 import {
   Button,
@@ -19,11 +19,11 @@ import {
 import { formatDate } from "../../utils/formatDate";
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { FaRegFilePdf } from "react-icons/fa";
-
-import { generatePDF } from "../../utils/generatePdf";
+import PageLoadingSpinner from "../../components/shared/PageLoadingSpinner/PageLoadingSpinner";
 
 const AllContents = () => {
   const [contents, setContents] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const breadcrumbLinks = [
     {
@@ -42,9 +42,36 @@ const AllContents = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const handleGeneratePdf = async (content) => {
-    console.log(content);
-    generatePDF(content);
+  const handleGeneratePdf = async (
+    id,
+    titleBangla,
+    banglaText,
+    captionBangla
+  ) => {
+    setLoading(true);
+
+    const finalPdf =
+      `<div>
+            <h1>${titleBangla}</h1>
+            <h2>${captionBangla}</h2>
+          </div>` + JSON.parse(banglaText);
+
+    console.log(finalPdf);
+    axiosInstance
+      .post(`/pdf/create`, {
+        pdf_id: id,
+        fileName: titleBangla,
+        htmlContent: JSON.stringify(finalPdf),
+      })
+      .then((res) => {
+        console.log(res.data);
+        window.open(serverUrl + res.data.url, "_blank");
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -71,110 +98,120 @@ const AllContents = () => {
         </h1>
 
         <div>
-          <Table
-            aria-label="Example static collection table"
-            selectionMode="single"
-          >
-            <TableHeader>
-              <TableColumn>#</TableColumn>
-              <TableColumn>Title</TableColumn>
-              <TableColumn>Visibility</TableColumn>
-              <TableColumn>Date</TableColumn>
-              <TableColumn>Action</TableColumn>
-            </TableHeader>
-            <TableBody>
-              {contents &&
-                contents.length > 0 &&
-                contents.map((c, idx) => {
-                  return (
-                    <TableRow key={c.id}>
-                      <TableCell>{idx + 1}</TableCell>
-                      <TableCell>
-                        <span className="hover:text-primary hover:underline cursor-pointer">
-                          {c?.captionBangla}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        {capitalizeFirstLetter(c?.visibility)}
-                      </TableCell>
-                      <TableCell>{formatDate(c.time)}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-2 items-center">
-                          <Tooltip
-                            color="primary"
-                            size="sm"
-                            content="Change Visibility"
-                            closeDelay={100}
-                            placement="left"
-                            showArrow
-                          >
-                            <Button
-                              isIconOnly
-                              aria-label="Change Visibility"
-                              color="default"
-                            >
-                              <RiGitRepositoryPrivateLine />
-                            </Button>
-                          </Tooltip>
-
-                          <Tooltip
-                            color="primary"
-                            size="sm"
-                            content="View"
-                            closeDelay={100}
-                            placement="left"
-                            showArrow
-                          >
-                            <Button
-                              onPress={() => handleGeneratePdf(c.banglaText)}
-                              isIconOnly
-                              aria-label="View"
+          {loading && <PageLoadingSpinner />}
+          {!loading && (
+            <Table
+              aria-label="Example static collection table"
+              selectionMode="single"
+            >
+              <TableHeader>
+                <TableColumn>#</TableColumn>
+                <TableColumn>Title</TableColumn>
+                <TableColumn>Visibility</TableColumn>
+                <TableColumn>Date</TableColumn>
+                <TableColumn>Action</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {contents &&
+                  contents.length > 0 &&
+                  contents.map((c, idx) => {
+                    return (
+                      <TableRow key={c.id}>
+                        <TableCell>{idx + 1}</TableCell>
+                        <TableCell>
+                          <span className="hover:text-primary hover:underline cursor-pointer">
+                            {c?.captionBangla}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          {capitalizeFirstLetter(c?.visibility)}
+                        </TableCell>
+                        <TableCell>{formatDate(c.time)}</TableCell>
+                        <TableCell>
+                          <div className="flex gap-2 items-center">
+                            <Tooltip
                               color="primary"
+                              size="sm"
+                              content="Change Visibility"
+                              closeDelay={100}
+                              placement="left"
+                              showArrow
                             >
-                              <FaRegFilePdf />
-                            </Button>
-                          </Tooltip>
+                              <Button
+                                isIconOnly
+                                aria-label="Change Visibility"
+                                color="default"
+                              >
+                                <RiGitRepositoryPrivateLine />
+                              </Button>
+                            </Tooltip>
 
-                          <Tooltip
-                            color="primary"
-                            size="sm"
-                            content="Edit"
-                            closeDelay={100}
-                            placement="left"
-                            showArrow
-                          >
-                            <Button
-                              isIconOnly
-                              aria-label="Edit"
-                              color="success"
+                            <Tooltip
+                              color="primary"
+                              size="sm"
+                              content="Download"
+                              closeDelay={100}
+                              placement="left"
+                              showArrow
                             >
-                              <CiEdit />
-                            </Button>
-                          </Tooltip>
+                              <Button
+                                onPress={() =>
+                                  handleGeneratePdf(
+                                    c.id,
+                                    c.titleBangla,
+                                    c.banglaText,
+                                    c.captionBangla
+                                  )
+                                }
+                                isIconOnly
+                                aria-label="Download"
+                                color="primary"
+                              >
+                                <FaRegFilePdf />
+                              </Button>
+                            </Tooltip>
 
-                          <Tooltip
-                            color="danger"
-                            size="sm"
-                            content="Delete"
-                            closeDelay={100}
-                            placement="left"
-                            showArrow
-                          >
-                            <Button
-                              isIconOnly
-                              aria-label="Delete"
-                              color="warning"
+                            <Tooltip
+                              color="primary"
+                              size="sm"
+                              content="Edit"
+                              closeDelay={100}
+                              placement="left"
+                              showArrow
                             >
-                              <MdOutlineDeleteOutline />
-                            </Button>
-                          </Tooltip>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
+                              <Button
+                                isIconOnly
+                                aria-label="Edit"
+                                color="success"
+                              >
+                                <CiEdit />
+                              </Button>
+                            </Tooltip>
+
+                            <Tooltip
+                              color="danger"
+                              size="sm"
+                              content="Delete"
+                              closeDelay={100}
+                              placement="left"
+                              showArrow
+                            >
+                              <Button
+                                isIconOnly
+                                aria-label="Delete"
+                                color="warning"
+                              >
+                                <MdOutlineDeleteOutline />
+                              </Button>
+                            </Tooltip>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          )}
         </div>
       </div>
     </>

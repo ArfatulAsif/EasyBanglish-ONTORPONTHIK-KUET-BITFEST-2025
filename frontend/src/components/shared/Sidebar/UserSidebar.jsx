@@ -1,3 +1,4 @@
+import { LuHeartHandshake } from "react-icons/lu";
 import { Link, useLocation } from "react-router";
 import { SidebarItem } from "./Sidebar";
 import { LuLayoutDashboard } from "react-icons/lu";
@@ -33,6 +34,15 @@ const UserSidebar = () => {
           icon={<RiRobot3Line />}
           text="Chatbot"
           active={location?.pathname.includes("/dashboard/chatbot")}
+        />
+      </Link>
+
+      {/* Contribute Tab */}
+      <Link to="/dashboard/contribute">
+        <SidebarItem
+          icon={<LuHeartHandshake />}
+          text="Contribute"
+          active={location?.pathname.includes("/dashboard/contribute")}
         />
       </Link>
     </div>

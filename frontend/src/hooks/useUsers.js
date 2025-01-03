@@ -13,6 +13,8 @@ const useUsers = () => {
     try {
       const users = await getAllUsers();
 
+      console.log(users);
+
       setUsers(users);
     } catch (err) {
       const errorMessage = err?.response?.data?.message;

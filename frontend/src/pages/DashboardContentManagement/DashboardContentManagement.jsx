@@ -4,8 +4,13 @@ import SectionCard from "../../components/shared/SectionCard/SectionCard";
 import { TiDocumentAdd } from "react-icons/ti";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { FaRegFilePdf } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axiosInstance";
 
 const DashboardContentManagement = () => {
+  const [loading, setLoading] = useState(false);
+  const [contents, setContents] = useState([]);
+
   const breadcrumbLinks = [
     {
       text: "Content Management",
@@ -13,6 +18,21 @@ const DashboardContentManagement = () => {
       icon: MdOutlineDocumentScanner,
     },
   ];
+
+  useEffect(() => {
+    setLoading(true);
+
+    axiosInstance
+      .get(`/pdf/user?token=${localStorage.getItem("token")}`)
+      .then((res) => {
+        console.log(res.data);
+        setContents(res?.data?.userPDFs);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
@@ -29,6 +49,7 @@ const DashboardContentManagement = () => {
           loading={false}
           total={10}
           hideTotal={true}
+          extraText={"Add New Content"}
           error={false}
         />
 
@@ -37,20 +58,20 @@ const DashboardContentManagement = () => {
           title={"All Contents"}
           icon={<IoDocumentsOutline className="text-2xl" />}
           to="all-contents"
-          loading={false}
-          total={10}
+          loading={loading}
+          total={contents?.length}
           error={false}
         />
 
         {/* Exported Files */}
-        <SectionCard
+        {/* <SectionCard
           title={"Exported Files"}
           icon={<FaRegFilePdf className="text-2xl" />}
           to="exported-files"
           loading={false}
           total={10}
           error={false}
-        />
+        /> */}
       </div>
     </>
   );
