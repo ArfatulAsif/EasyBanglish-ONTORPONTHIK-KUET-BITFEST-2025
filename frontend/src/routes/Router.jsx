@@ -17,6 +17,7 @@ import Chatbot from "../pages/Chatbot/Chatbot";
 import Contribute from "../pages/Contribute/Contribute";
 import VerifyContributions from "../pages/VerifyContributions/VerifyContributions";
 import Explore from "../pages/Explore/Explore";
+import Collaboration from "../pages/Collaboration/Collaboration";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "content-management/all-contents",
         element: <AllContents />,
+      },
+      {
+        path: "content-management/collaborate",
+        element: <Collaboration />,
       },
       {
         path: "content-management/exported-files",

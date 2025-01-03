@@ -57,7 +57,7 @@ exports.chatCreate = async (req, res) => {
       if (userAnalytics) {
         // If the user exists, increment the word count
         await prismaClient.analytics.update({
-          where: { userId: user_id },
+          where: { id: userAnalytics.id },
           data: {
             translatedWords: userAnalytics.translatedWords + wordCount,
             messageCount: userAnalytics.messageCount + 1
@@ -97,13 +97,13 @@ exports.messageCreateText = async (req, res) => {
       const wordCount = text.split(/\s+/).length;  // Split by whitespace and count words
   
       // Call external API to generate a response if the sender is the user
-    //   if (sender === 'user') {
-    //     const aiResponse = await axios.post(`${process.env.base_url}/ai/generate-text`, {
-    //       prompt: text
-    //     });
-    //     aiMessage = aiResponse.data.text;
-    //   }
-     aiMessage = "ওকে"
+      if (sender === 'user') {
+        const aiResponse = await axios.post(`${process.env.base_url}/ai/generate-text`, {
+          prompt: text
+        });
+        aiMessage = aiResponse.data.text;
+      }
+     //aiMessage = "ওকে"
   
       // Save the user's message
       const userMessage = await prismaClient.message.create({

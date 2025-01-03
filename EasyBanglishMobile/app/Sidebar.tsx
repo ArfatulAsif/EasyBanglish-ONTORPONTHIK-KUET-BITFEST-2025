@@ -31,14 +31,14 @@ const Sidebar = ({ visible, onClose }) => {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => { router.push('/profile'); onClose(); }} style={styles.menuItem}>
-        <Ionicons name="person-circle-outline" size={24} color="#4C6EF5" />
+        <Ionicons name="home-outline" size={24} color="#4C6EF5" />
         <Text style={styles.menuText}>Profile</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => { router.push('/chat'); onClose(); }} style={styles.menuItem}>
+      {/* <TouchableOpacity onPress={() => { router.push('/chat'); onClose(); }} style={styles.menuItem}>
         <Ionicons name="logo-octocat" size={24} color="#4C6EF5" />
         <Text style={styles.menuText}>ChatBot</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       
       <TouchableOpacity onPress={handleLogout} style={styles.menuItem}>
         <Ionicons name="log-out-outline" size={24} color="#FF5733" />

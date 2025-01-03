@@ -2,43 +2,51 @@ import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, FlatList, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FindUserPage = () => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const router = useRouter();
 
-  const dummyUsers = [
-    "John Doe",
-    "Jane Smith",
-    "Alice Johnson",
-    "Bob Brown",
-    "Charlie Davis",
-  ];
-
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (searchText.trim() === "") {
       setSearchResults([]);
       return;
     }
-    const filteredResults = dummyUsers.filter((user) =>
-      user.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setSearchResults(filteredResults);
+
+    const data = await AsyncStorage.getItem("data");
+    const token = JSON.parse(data)?.token;
+
+    if (!token) return;
+
+    try {
+      const response = await fetch(`http://192.168.14.51:8000/auth/search?token=${token}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: searchText }), 
+      });
+      const result = await response.json();
+      setSearchResults(result.users); // Assuming the response contains the 'users' array
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
   };
 
-  const navigateToUserProfile = (userName) => {
-    // Navigate to user profile page with the user's name (or id if you prefer)
-    router.push(`/userpage`);
+  const navigateToUserProfile = (userId, userName, item) => {
+    // Navigate to user profile page with both user id and user name
+    router.push(`/userpage?id=${userId}&name=${userName}`);
   };
 
   const renderUser = ({ item }) => (
     <TouchableOpacity
       style={styles.userContainer}
-      onPress={() => navigateToUserProfile(item)}
+      onPress={() => navigateToUserProfile(item.id, item.name, item)} // Pass both id and name
     >
       <Ionicons name="person-circle" size={24} color="#4C6EF5" style={styles.userIcon} />
-      <Text style={styles.userName}>{item}</Text>
+      <Text style={styles.userName}>{item.name}</Text>
     </TouchableOpacity>
   );
 
@@ -57,10 +65,9 @@ const FindUserPage = () => {
         </TouchableOpacity>
       </View>
 
-      {/* FlatList handles the scrolling */}
       <FlatList
         data={searchResults}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderUser}
         contentContainerStyle={styles.resultsContainer}
         ListEmptyComponent={

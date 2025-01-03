@@ -15,10 +15,10 @@ const CustomHeader = ({ onMenuPress }) => {
     <SafeAreaView style={styles.header}>
       <Text style={styles.title}>EasyBanglish</Text>
       <View style={styles.iconsContainer}>
-        <TouchableOpacity onPress={handleChatPress} style={styles.chatIcon}>
-          {/* Robot icon */}
+        {/* <TouchableOpacity onPress={handleChatPress} style={styles.chatIcon}>
+          
           <Ionicons name="logo-octocat" size={30} color="#4C6EF5" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={onMenuPress} style={styles.menuIcon}>
           <Ionicons name="menu" size={30} color="#4C6EF5" />
         </TouchableOpacity>

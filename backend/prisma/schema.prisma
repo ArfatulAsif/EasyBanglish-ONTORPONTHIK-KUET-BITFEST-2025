@@ -20,6 +20,7 @@ model User {
   pdfs      Pdf[]
   analytics Analytics[]
   userTranslation UserTranslation[]
+  collaborations Collaboration[] @relation("UserCollaborations")
 }
 
 model Chat {
@@ -87,4 +88,12 @@ model UserTranslation {
   createdAt DateTime @default(now())
 
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Collaboration {
+  id        Int       @id @default(autoincrement())
+  users     User[]    @relation("UserCollaborations")
+  content   String    @default("")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }

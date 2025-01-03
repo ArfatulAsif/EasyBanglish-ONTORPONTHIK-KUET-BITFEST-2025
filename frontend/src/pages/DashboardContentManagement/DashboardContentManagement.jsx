@@ -1,3 +1,4 @@
+import { MdOutlineGroup } from "react-icons/md";
 import PageHeader from "../../components/shared/PageHeader/PageHeader";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import SectionCard from "../../components/shared/SectionCard/SectionCard";
@@ -60,6 +61,17 @@ const DashboardContentManagement = () => {
           to="all-contents"
           loading={loading}
           total={contents?.length}
+          error={false}
+        />
+
+        {/* Collaborate */}
+        <SectionCard
+          title={"Collaborate"}
+          icon={<MdOutlineGroup className="text-2xl" />}
+          to="collaborate"
+          loading={false}
+          hideTotal={true}
+          extraText={"Collaborate"}
           error={false}
         />
 

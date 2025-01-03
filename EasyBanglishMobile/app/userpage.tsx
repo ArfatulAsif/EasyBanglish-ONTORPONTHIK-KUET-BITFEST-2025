@@ -1,51 +1,94 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native"; // Use useRoute from react-navigation
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Linking } from 'react-native';
 
 const UserProfilePage = () => {
-  const user = {
-    name: "John Doe",
+  const [pdfs, setPdfs] = useState([]);
+  const [userName, setUserName] = useState(''); 
+  const route = useRoute(); // Access the route params
+
+  const { id, name } = route.params || {}; // Extract id and name from route params
+
+  const nid = parseInt(id) 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dataFromStorage = await AsyncStorage.getItem('data');
+        const data = JSON.parse(dataFromStorage);
+
+        if (!data || !nid) {
+          console.log("No data found or no user ID passed");
+          return;
+        }
+
+        const token = data.token;
+        const userName = name || 'John Doe'; // Use 'name' from query params or fallback
+        setUserName(userName);
+
+        if (!token) {
+          console.log("No token found");
+          return;
+        }
+
+        const response = await fetch(`http://192.168.14.51:8000/pdf/users?userId=${nid}`);
+        const responseData = await response.json();
+        console.log(responseData)
+        const publicPdfs = responseData.userPDFs?.filter(pdf => pdf.visibility === 'public') || [];
+        
+        setPdfs(publicPdfs);
+      } catch (error) {
+        console.error("Error fetching PDFs:", error);
+      }
+    };
+
+    fetchData();
+  }, [id, name]);
+
+  const navigateToPdfView = (pdfId, titleBangla) => {
+    const pdfLink = `http://192.168.14.51:8000/pdfs/${pdfId}-${titleBangla}.pdf`;
+    // Navigate to the PDF link
+    Linking.openURL(pdfLink).catch(err => console.error('Failed to open PDF link:', err));
   };
 
-  const savedPDFs = [
-    "User Manual - EasyBanglish.pdf",
-    "Bangla to Banglish Guide.pdf",
-    "Introduction to React Native.pdf",
-    "EasyBanglish Features Overview.pdf",
-    "React Navigation Documentation.pdf",
-    "Advanced React Native.pdf",
-    "UI/UX Design Guide.pdf",
-    "Mobile Development Best Practices.pdf",
-    "App Security Guidelines.pdf",
-  ];
-
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {/* User Icon and Name */}
+    <View style={styles.container}>
       <View style={styles.profileContainer}>
         <View style={styles.iconContainer}>
           <Ionicons name="person-circle-outline" size={100} color="#4C6EF5" />
         </View>
-        <Text style={styles.userName}>{user.name}</Text>
+        <Text style={styles.userName}>{userName ? userName : 'John Doe'}</Text>
       </View>
 
-      {/* Public Content Section */}
       <Text style={styles.sectionHeader}>Public Contents</Text>
-      <View style={styles.pdfContainer}>
-        {savedPDFs.map((pdf, index) => (
-          <TouchableOpacity key={index} style={styles.pdfItem}>
+      <FlatList
+        data={pdfs}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.pdfItem}
+            onPress={() => navigateToPdfView(item.id, item.titleBangla)}
+          >
             <Ionicons name="document-outline" size={40} color="#FF5733" />
-            <Text style={styles.pdfText}>{pdf}</Text>
+            <Text style={styles.pdfText}>
+              {item.id}-{item.titleBangla}.pdf
+            </Text>
           </TouchableOpacity>
-        ))}
-      </View>
-    </ScrollView>
+        )}
+        numColumns={2}
+        contentContainerStyle={styles.pdfList}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollContainer: {
+  container: {
+    flex: 1,
     padding: 20,
+    backgroundColor: "#f9f9f9",
   },
   profileContainer: {
     alignItems: "center",
@@ -68,26 +111,33 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     textAlign: "center",
   },
-  pdfContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+  pdfList: {
+    marginTop: 10,
+    alignItems: "center",
   },
   pdfItem: {
-    width: "48%",
-    marginBottom: 20,
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  pdfText: {
-    marginTop: 5,
-    fontSize: 16,
-    color: "#333",
-  },
+        width: "90%", // Utilize more screen space
+        marginBottom: 20,
+        alignItems: "center",
+        backgroundColor: "#fdfdfd",
+        padding: 15, // Increase padding for better readability
+        borderRadius: 8, // Slightly more rounded corners
+        borderWidth: 0, // Remove borders for a cleaner look
+        elevation: 3, // Adds shadow for Android
+        shadowColor: "#000", // Adds shadow for iOS
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+      },
+      pdfText: {
+        marginTop: 5,
+        fontSize: 18, // Slightly larger font for better visibility
+        color: "#333",
+        textAlign: "center", // Align text to center
+        flexWrap: "wrap", // Ensure text wraps to new lines
+        lineHeight: 22, // Improve readability
+      },
+      
 });
 
 export default UserProfilePage;
