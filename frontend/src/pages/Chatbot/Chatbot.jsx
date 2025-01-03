@@ -15,6 +15,7 @@ import {
   ModalFooter,
   ModalHeader,
   Spinner,
+  Switch,
   Textarea,
   Tooltip,
   useDisclosure,
@@ -53,6 +54,7 @@ const Chatbot = () => {
   const [newChatText, setNewChatText] = useState("");
   const [refetch, setRefetch] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [isPdfMode, setIsPdfMode] = useState(false);
 
   // Hooks
   // const { chats, createChat } = useChatbot();
@@ -107,20 +109,36 @@ const Chatbot = () => {
   const handlePromptSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-
     const token = localStorage.getItem("token");
-    axiosInstance
-      .post(`/chat/message?token=${token}`, {
-        chat_id: selectedChatId,
-        text: e.target.promptMsg.value,
-      })
-      .then((res) => {
-        setSelectedMessages(res.data.message);
-        setPrompt("");
-        // scroll to bottom
-        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-        setLoading(false);
-      });
+
+    if (isPdfMode) {
+      axiosInstance
+        .post(`/ai/pdf-search?token=${token}`, {
+          chat_id: selectedChatId,
+          prompt: e.target.promptMsg.value,
+        })
+        .then((res) => {
+          console.log(res.data);
+          setSelectedMessages(res.data.message);
+          setPrompt("");
+          // scroll to bottom
+          scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+          setLoading(false);
+        });
+    } else {
+      axiosInstance
+        .post(`/chat/message?token=${token}`, {
+          chat_id: selectedChatId,
+          text: e.target.promptMsg.value,
+        })
+        .then((res) => {
+          setSelectedMessages(res.data.message);
+          setPrompt("");
+          // scroll to bottom
+          scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -319,6 +337,11 @@ const Chatbot = () => {
                       </div>
                     );
                   })}
+                  {selectedChatId && (
+                    <Switch isSelected={isPdfMode} onValueChange={setIsPdfMode}>
+                      PDF Reference Mode
+                    </Switch>
+                  )}
                 </>
               )}
             </div>
