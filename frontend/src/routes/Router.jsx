@@ -18,6 +18,7 @@ import Contribute from "../pages/Contribute/Contribute";
 import VerifyContributions from "../pages/VerifyContributions/VerifyContributions";
 import Explore from "../pages/Explore/Explore";
 import Collaboration from "../pages/Collaboration/Collaboration";
+import CollaborationBox from "../pages/Collaboration/CollaborationBox";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
       {
         path: "content-management/collaborate",
         element: <Collaboration />,
+      },
+      {
+        path: "content-management/collaborate/collaboration-box",
+        element: <CollaborationBox />,
       },
       {
         path: "content-management/exported-files",
