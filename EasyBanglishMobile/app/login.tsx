@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, TouchableOpacity, Alert, StatusBar, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, Button, Image, TouchableOpacity, Alert, StatusBar, ActivityIndicator, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import tw from 'twrnc';
@@ -14,7 +14,7 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://53bc-103-16-226-96.ngrok-free.app/auth/login', {
+      const response = await fetch(`http://192.168.14.51:8000/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,31 +33,28 @@ const LoginScreen = () => {
         setErrorMessage(errorData.message || 'Invalid login credentials');
       }
     } catch (error) {
-        console.error('Error during login:', error); // Log the complete error to understand its structure
-        setErrorMessage(error.message || 'An error occurred. Please try again later.');
-    }finally {
+      console.error('Error during login:', error);
+      setErrorMessage(error.message || 'An error occurred. Please try again later.');
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={tw`flex-1 bg-gray-100`}>
-      <StatusBar hidden={true} />
-      {/* <Image 
-        source={require('../assets/images/iot_pic.jpg')} 
-        style={tw`absolute inset-0 w-full h-full opacity-20`} 
-      /> */}
+    <View style={tw`flex-1 bg-gray-200`}>
+      <StatusBar hidden={false} />
       <View style={tw`flex-1 justify-center items-center px-6`}>
-        <Text style={tw`text-3xl font-bold text-gray-800 mb-6`}>MOBILE APP</Text>
+        <Text style={tw`text-3xl font-bold text-gray-800 mb-6`}>EasyBanglish</Text>
         
-        <TextInput 
+        
+        <TextInput
           style={tw`w-full h-12 border border-gray-300 rounded-lg px-4 bg-white mb-4`}
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
         />
-        <TextInput 
+        <TextInput
           style={tw`w-full h-12 border border-gray-300 rounded-lg px-4 bg-white mb-4`}
           placeholder="Password"
           value={password}
@@ -69,7 +66,7 @@ const LoginScreen = () => {
           <Text style={tw`text-red-500 text-sm mb-4`}>{errorMessage}</Text>
         ) : null}
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={tw`w-full h-12 bg-blue-500 rounded-lg justify-center items-center mb-4`}
           onPress={handleLogin}
           disabled={loading}
@@ -85,6 +82,13 @@ const LoginScreen = () => {
           <Text style={tw`text-gray-800`}>
             Don't have an account?{' '}
             <Text style={tw`text-blue-600 font-semibold`}>Create</Text>
+          </Text>
+        </TouchableOpacity>
+
+        {/* Add an option for language change if needed */}
+        <TouchableOpacity onPress={() => {/* Add language toggle functionality */}}>
+          <Text style={tw`text-gray-600 mt-4`}>
+            <Text style={tw`text-blue-600 font-semibold`}>Switch to Bangla</Text>
           </Text>
         </TouchableOpacity>
       </View>

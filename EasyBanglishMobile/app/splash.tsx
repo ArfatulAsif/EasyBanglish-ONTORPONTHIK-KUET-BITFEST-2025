@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import tw from 'twrnc'
 
 const SplashScreen = () => {
   const router = useRouter();
@@ -11,7 +10,6 @@ const SplashScreen = () => {
   useEffect(() => {
     const navigateAfterDelay = async () => {
       await new Promise(resolve => setTimeout(resolve, 3000)); // 3-second delay
-
       const email = await AsyncStorage.getItem('data');
       if (email) {
         router.replace('/home'); // Redirect to home if email is available
@@ -24,14 +22,15 @@ const SplashScreen = () => {
   }, []);
 
   return (
-
     <View style={styles.container}>
-      {/* <Image 
-        source={require('../assets/images/iot_pic.jpg')} 
-        style={tw`absolute inset-0 w-full h-full opacity-20`} 
-      /> */}
-      <Ionicons name="home-outline" size={80} color="#FF6347" style={styles.icon} />
-      <Text style={styles.text}>KUET HACKATHON</Text>
+      <View style={styles.backgroundDots}>
+        {/* Render multiple dots */}
+        {Array.from({ length: 200 }).map((_, index) => (
+          <View key={index} style={styles.dot} />
+        ))}
+      </View>
+      <Ionicons name="clipboard-outline" size={80} color="#FF6347" style={styles.icon} />
+      <Text style={styles.text}>EasyBanglish</Text>
       <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
     </View>
   );
@@ -45,6 +44,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
+    position: 'relative',
+  },
+  backgroundDots: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  dot: {
+    width: 5,  // Smaller dot size
+    height: 5, // Smaller dot size
+    backgroundColor: '#FF6347',
+    borderRadius: 2.5, // Half of the width and height to make it round
+    margin: 5, // Adjust spacing between dots
   },
   icon: {
     marginBottom: 20,
