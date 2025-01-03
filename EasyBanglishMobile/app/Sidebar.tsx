@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'; // Use Ionicons for icons
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Sidebar = ({ visible, onClose }) => {
@@ -29,15 +29,15 @@ const Sidebar = ({ visible, onClose }) => {
         <Ionicons name="home-outline" size={24} color="#4C6EF5" />
         <Text style={styles.menuText}>Home</Text>
       </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => { router.push('/write'); onClose(); }} style={styles.menuItem}>
-        <Ionicons name="create-outline" size={24} color="#4C6EF5" />
-        <Text style={styles.menuText}>Write</Text>
+
+      <TouchableOpacity onPress={() => { router.push('/profile'); onClose(); }} style={styles.menuItem}>
+        <Ionicons name="person-circle-outline" size={24} color="#4C6EF5" />
+        <Text style={styles.menuText}>Profile</Text>
       </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => { router.push('/find'); onClose(); }} style={styles.menuItem}>
-        <Ionicons name="search-outline" size={24} color="#4C6EF5" />
-        <Text style={styles.menuText}>Find</Text>
+
+      <TouchableOpacity onPress={() => { router.push('/chat'); onClose(); }} style={styles.menuItem}>
+        <Ionicons name="logo-octocat" size={24} color="#4C6EF5" />
+        <Text style={styles.menuText}>ChatBot</Text>
       </TouchableOpacity>
       
       <TouchableOpacity onPress={handleLogout} style={styles.menuItem}>
