@@ -97,6 +97,8 @@
 ### 4. **Customizable Bangla Fonts for PDFs**  
 - **Font Selection**: Allow users to choose from various Bangla fonts when generating PDFs.
 
+### 5. **Dockerization**  
+- **Containerized Deployment**: Dockerize the application to ensure consistent environments across development, testing, and production, improving the portability and scalability of the application.
 
 
 ## Role-based Access Control 🚪
