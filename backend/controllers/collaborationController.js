@@ -97,10 +97,35 @@ const getCollaborationsByUser = async (req, res) => {
     }
   };
 
+  const getCollaborationContentById = async (req, res) => {
+    try {
+      const { collabId } = req.params;
+  
+      const collaboration = await prisma.collaboration.findUnique({
+        where: {
+          id: parseInt(collabId, 10),
+        },
+        select: {
+          id: true,
+          content: true,
+        },
+      });
+  
+      if (!collaboration) {
+        return res.status(404).json({ success: false, message: "Collaboration not found" });
+      }
+  
+      res.status(200).json({ success: true, collaboration });
+    } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+    }
+  };
+
 module.exports = {
   createCollaboration,
   addUserToCollaboration,
   deleteCollaboration,
   updateCollaborationContent,
   getCollaborationsByUser,
+  getCollaborationContentById,
 };
