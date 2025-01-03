@@ -7,7 +7,9 @@ import {
 } from "../services/chatbotServices";
 
 const useChatbot = () => {
+  const [selectedChatId, setSelectedChatId] = useState(null);
   const [chats, setChats] = useState([]);
+  const [selectedMessages, setSelectedMessages] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [refetch, setRefetch] = useState(false);
@@ -21,7 +23,7 @@ const useChatbot = () => {
 
       setChats(data.chats?.reverse());
 
-      // console.log(data);
+      console.log(data.chats);
     } catch (err) {
       const errorMessage = err?.response?.data?.message;
       setError(errorMessage || "Failed to fetch chats.");
@@ -53,8 +55,15 @@ const useChatbot = () => {
     setError(null);
 
     try {
-      const data = await addNewMessage(chatId, message);
-      setRefetch(!refetch);
+      const data = await addNewMessage(
+        parseInt(localStorage.getItem("selectedChatId")),
+        localStorage.getItem("prompt")
+      );
+      // setRefetch(!refetch);
+
+      console.log(data.message);
+      setSelectedMessages(data.message);
+      // setSelectedChat(data);
       return data;
     } catch (err) {
       const errorMessage = err?.response?.data?.message;
@@ -79,6 +88,9 @@ const useChatbot = () => {
     createChat,
     newMessage,
     refreshMessages,
+    selectedMessages,
+    setSelectedMessages,
+    setSelectedChatId,
     refetch: () => fetchChats(),
   };
 };
