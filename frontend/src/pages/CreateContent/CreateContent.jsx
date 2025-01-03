@@ -1,8 +1,11 @@
+import { useRef, useState } from "react";
 import PageHeader from "../../components/shared/PageHeader/PageHeader";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { TiDocumentAdd } from "react-icons/ti";
+import TextEditor from "./TextEditor";
 
 const CreateContent = () => {
+  // Breadcrumb links
   const breadcrumbLinks = [
     {
       text: "Content Management",
@@ -16,6 +19,12 @@ const CreateContent = () => {
     },
   ];
 
+  // Refs
+  const editor = useRef(null);
+
+  // States
+  const [content, setContent] = useState("");
+
   return (
     <>
       <div>
@@ -23,7 +32,7 @@ const CreateContent = () => {
       </div>
 
       <div className="p-4">
-        <h1>This is create content page</h1>
+        <TextEditor editor={editor} content={content} setContent={setContent} />
       </div>
     </>
   );
