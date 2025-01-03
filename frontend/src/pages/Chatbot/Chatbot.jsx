@@ -104,7 +104,7 @@ const Chatbot = () => {
             </div>
 
             {/* main content */}
-            <div className="mt-2 chatbot-chat-holder rounded-lg p-3 bg-gray-900 h-full relative">
+            <div className="mt-2 chatbot-chat-holder rounded-lg p-3 bg-gray-900 h-full max-h-[90vh] relative">
               <div
                 ref={scrollRef}
                 className="h-[85%] pb-4 overflow-y-auto flex flex-col gap-6"
@@ -161,10 +161,8 @@ const Chatbot = () => {
               <div className="h-[15%] flex flex-col justify-end">
                 {selectedChat && (
                   <ChatbotTextBox
-                    chatId={selectedChat}
-                    conversation={conversation}
-                    setConversation={setConversation}
-                    // reloadConversation={reloadConversation}
+                    selectedChat={selectedChat}
+                    setSelectedChat={setSelectedChat}
                   />
                 )}
               </div>

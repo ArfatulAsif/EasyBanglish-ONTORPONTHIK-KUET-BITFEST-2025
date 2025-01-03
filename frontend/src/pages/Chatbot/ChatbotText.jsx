@@ -1,18 +1,27 @@
 import { Button, Spinner, Textarea } from "@nextui-org/react";
 import { useState } from "react";
 import { BsSendArrowUp } from "react-icons/bs";
-// import { getChatbotPrompt } from "../../utils/getAiPrompts";
+import useChatbot from "../../hooks/useChatbot";
 import toast from "react-hot-toast";
 
-const ChatbotTextBox = () => {
+const ChatbotTextBox = ({ selectedChat, setSelectedChat }) => {
   const [prompt, setPrompt] = useState("");
-  const handlePromptSubmit = (event) => {
+  const [loading, setLoading] = useState(false);
+  const { newMessage, refreshMessages } = useChatbot();
+
+  const handlePromptSubmit = async (event) => {
     event.preventDefault();
 
     if (prompt === "") {
       toast.error("Please type something");
       return;
     }
+
+    setLoading(true);
+    await newMessage(selectedChat?.id, prompt);
+    setLoading(false);
+    setSelectedChat(null);
+    setSelectedChat(selectedChat);
   };
 
   return (
@@ -28,13 +37,14 @@ const ChatbotTextBox = () => {
       />
 
       <Button
-        disabled={false}
+        disabled={loading}
         type="submit"
         className="h-[50px]"
         radius="md"
         color="primary"
+        // onPress={handlePromptSubmit}
       >
-        {false ? (
+        {loading ? (
           <Spinner className="text-2xl" color="white" />
         ) : (
           <BsSendArrowUp className="text-2xl" />

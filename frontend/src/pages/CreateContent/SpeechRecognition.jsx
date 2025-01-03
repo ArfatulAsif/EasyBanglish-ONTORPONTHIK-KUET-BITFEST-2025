@@ -1,4 +1,7 @@
+import { Button } from "@nextui-org/react";
 import useSpeechRecognition from "../../hooks/useSpeechRecognition";
+import { IoMic } from "react-icons/io5";
+import { FaRegStopCircle } from "react-icons/fa";
 
 const SpeechRecognition = ({ content, setContent }) => {
   const {
@@ -13,12 +16,25 @@ const SpeechRecognition = ({ content, setContent }) => {
     <div>
       {hasRecognitionSupport ? (
         <>
-          <div>
-            <button onClick={startListening}>Start</button>
-            <button onClick={stopListening}>Stop</button>
+          <div className="flex gap-4 items-center mb-4">
+            <Button
+              radius="full"
+              onPress={startListening}
+              color="success"
+              className="bg-gradient-to-r from-pink-300 via-purple-500 to-indigo-500 shadow-lg"
+              endContent={<IoMic className="text-lg" />}
+            ></Button>
+            <Button
+              radius="full"
+              onPress={stopListening}
+              color="success"
+              className="bg-gradient-to-r from-orange-300 to-red-500 shadow-lg"
+              endContent={<FaRegStopCircle className="text-lg" />}
+            ></Button>
+            {isListening && (
+              <h1 className="text-red-500 animate-pulse">Listening...</h1>
+            )}
           </div>
-
-          {isListening ? <h1>Listening...</h1> : <h1>{text}</h1>}
         </>
       ) : (
         <>

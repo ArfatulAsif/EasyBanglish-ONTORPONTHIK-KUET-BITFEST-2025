@@ -8,6 +8,23 @@ const TextEditor = ({ editor, content, setContent }) => {
     () => ({
       theme: "dark",
       readonly: false,
+      controls: {
+        font: {
+          list: {
+            Kalpurush: "Kalpurush",
+            "Adorsho Lipi": "adorsho-lipi",
+            BenSen: "BenSen",
+            "BenSen Handwriting": "BenSenHandwriting",
+            Mitra: "Mitra",
+            Mukti: "Mukti",
+            Lohit: "Lohit",
+            "Nikosh Light": "Nikosh Light",
+            "Noto Sans Bengali": "Noto Sans Bengali",
+            Arial: "Arial",
+            "Courier New": "Courier New",
+          },
+        },
+      },
     }),
     []
   );
