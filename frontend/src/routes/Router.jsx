@@ -9,6 +9,10 @@ import DashboardHome from "../pages/DashboardHome/DashboardHome";
 import DashboardSettings from "../pages/DashboardSettings/DashboardSettings";
 import DashboardUsers from "../pages/DashboardUsers/DashboardUsers";
 import DashboardLogs from "../pages/DashboardLogs/DashboardLogs";
+import DashboardContentManagement from "../pages/DashboardContentManagement/DashboardContentManagement";
+import CreateContent from "../pages/CreateContent/CreateContent";
+import AllContents from "../pages/AllContents/AllContents";
+import ExportedFiles from "../pages/ExportedFiles/ExportedFiles";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +58,22 @@ const router = createBrowserRouter([
       {
         path: "history",
         element: <DashboardLogs />,
+      },
+      {
+        path: "content-management",
+        element: <DashboardContentManagement />,
+      },
+      {
+        path: "content-management/new-content",
+        element: <CreateContent />,
+      },
+      {
+        path: "content-management/all-contents",
+        element: <AllContents />,
+      },
+      {
+        path: "content-management/exported-files",
+        element: <ExportedFiles />,
       },
     ],
   },
