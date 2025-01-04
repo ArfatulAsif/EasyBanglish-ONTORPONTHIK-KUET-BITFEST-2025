@@ -7,6 +7,7 @@ const TextEditor = ({ editor, content, setContent }) => {
     () => ({
       theme: "dark",
       readonly: false,
+      height: 300,
       controls: {
         font: {
           list: {
