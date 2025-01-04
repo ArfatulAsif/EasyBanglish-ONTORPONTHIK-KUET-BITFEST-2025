@@ -39,13 +39,13 @@ const AdminSidebar = () => {
       </Link>
 
       {/* Dashboard Settings Tab */}
-      <Link to="/dashboard/settings">
+      {/* <Link to="/dashboard/settings">
         <SidebarItem
           icon={<IoSettingsOutline />}
           text="Settings"
           active={location?.pathname === "/dashboard/settings"}
         />
-      </Link>
+      </Link> */}
 
       {/* Verify contribution Tab */}
       <Link to="/dashboard/verify-contributions">
