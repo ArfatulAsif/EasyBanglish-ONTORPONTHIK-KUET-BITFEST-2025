@@ -35,33 +35,35 @@ const Collaboration = () => {
 
   const handleCreate = () => {
     setLoading(true);
-  
+
     // Retrieve userId from localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.id;
-  
+
     if (!userId) {
       console.error("User not found in localStorage");
       setLoading(false);
       return;
     }
-  
+
     const requestBody = {
-      userId,     // Add the retrieved userId
+      userId, // Add the retrieved userId
       content: "", // Set content to an empty string
     };
-  
+
     axiosInstance
       .post("/col/collaborations", requestBody) // Send request with userId and empty content
       .then((res) => {
         const { success, collaboration } = res.data;
-  
+
         if (success) {
           // Save the collaboration ID in localStorage
-          localStorage.setItem('collab', collaboration.id);
-  
+          localStorage.setItem("collab", collaboration.id);
+
           // Navigate to the specified route
-          navigate("/dashboard/content-management/collaborate/collaboration-box");
+          navigate(
+            "/dashboard/content-management/collaborate/collaboration-box"
+          );
         } else {
           console.error("Failed to create collaboration");
         }
@@ -72,25 +74,24 @@ const Collaboration = () => {
         setLoading(false);
       });
   };
-  
 
   const handleJoin = (event) => {
     event.preventDefault();
     setLoading(true);
-  
+
     // Retrieve userId from localStorage
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.id;
-  
+
     if (!userId) {
       console.error("User not found in localStorage");
       setLoading(false);
       return;
     }
-  
+
     // collaborationId from groupId
-    const collaborationId = groupId; 
-  
+    const collaborationId = groupId;
+
     const requestBody = {
       collaborationId,
       userId,
@@ -101,11 +102,11 @@ const Collaboration = () => {
     //   .post("/col/collaborations/add-user", requestBody) // Use the correct endpoint
     //   .then((res) => {
     //     const { success, collaboration } = res.data;
-  
+
     //     if (success) {
     //       // Save the collaboration ID in localStorage
     //       localStorage.setItem("collab", collaborationId);
-  
+
     //       // Navigate to the specified route
     //       navigate("/dashboard/content-management/collaborate/collaboration-box");
     //     } else {
@@ -118,7 +119,6 @@ const Collaboration = () => {
     //     setLoading(false);
     //   });
   };
-  
 
   return (
     <>
@@ -136,7 +136,7 @@ const Collaboration = () => {
 
         <div className="flex justify-center gap-4 items-center">
           <Button onPress={handleCreate} color="primary">
-            Create Group
+            Collaborate With Others
           </Button>
           <Button
             onPress={() => {
@@ -183,7 +183,7 @@ const Collaboration = () => {
             </ModalContent>
           </Modal>
         </div>
-        <div>
+        {/* <div>
           <h1 className="my-8 mb-4 font-semibold tracking-wide ">
             Created Groups
           </h1>
@@ -192,7 +192,7 @@ const Collaboration = () => {
             <li>2</li>
             <li>3</li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </>
   );

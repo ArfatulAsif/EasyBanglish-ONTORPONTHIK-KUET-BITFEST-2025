@@ -10,6 +10,38 @@ import toast from "react-hot-toast";
 const CollaborationBox = () => {
   const [sharedText, setSharedText] = useState(""); // For real-time collaboration
   const socketRef = useRef(null); // WebSocket reference
+  const [loading, setLoading] = useState(false);
+
+  const handleTranslate = () => {
+    setLoading(true);
+    axiosInstance
+      .post(`/ai/content-convert?token=${localStorage.getItem("token")}`, {
+        prompt: sharedText,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setLoading(false);
+        setSharedText(res.data.bangla);
+        handleInputChange({ target: { value: res.data.bangla } });
+        // setSpellingMistakes(res.data.spelling || null);
+        toast.success("Text translated successfully.");
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    axiosInstance
+      .get(`/col/collaborations/${localStorage.getItem("collab")}`)
+      .then((res) => {
+        const txt = res?.data?.collaboration?.content;
+
+        if (txt) {
+          setSharedText(txt);
+        }
+      });
+  }, []);
 
   const breadcrumbLinks = [
     {
@@ -44,7 +76,10 @@ const CollaborationBox = () => {
     socket.onopen = () => {
       // Register collaboration ID on connection
       socket.send(JSON.stringify({ type: "register", id: collabId }));
-      console.log("WebSocket connected and registered with collab ID:", collabId);
+      console.log(
+        "WebSocket connected and registered with collab ID:",
+        collabId
+      );
     };
 
     // Handle incoming messages
@@ -79,7 +114,7 @@ const CollaborationBox = () => {
   };
 
   const handleSave = () => {
-
+    setLoading(true);
     const collabId = localStorage.getItem("collab");
     if (!collabId) {
       console.error("Collaboration ID not found.");
@@ -95,13 +130,15 @@ const CollaborationBox = () => {
       .then((res) => {
         const { success } = res.data;
         if (success) {
-          toast.success("Collaboration Updated")
+          toast.success("Collaboration Updated");
         } else {
           console.error("Failed to update collaboration.");
         }
+        setLoading(false);
       })
       .catch((err) => {
         console.error("Error saving collaboration:", err);
+        setLoading(false);
       });
   };
 
@@ -124,7 +161,24 @@ const CollaborationBox = () => {
           maxRows={20}
           placeholder="Write here..."
         />
-        <Button onPress={handleSave} color="primary" className="mt-4">Save</Button>
+        <div className="flex gap-4">
+          <Button
+            isLoading={loading}
+            onPress={handleTranslate}
+            color="secondary"
+            className="mt-4"
+          >
+            Translate
+          </Button>
+          <Button
+            isLoading={loading}
+            onPress={handleSave}
+            color="primary"
+            className="mt-4"
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </>
   );
