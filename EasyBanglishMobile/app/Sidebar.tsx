@@ -35,7 +35,8 @@ const Sidebar = ({ visible, onClose }) => {
         <Text style={styles.menuText}>Profile</Text>
       </TouchableOpacity>
 
-      {/* <TouchableOpacity onPress={() => { router.push('/chat'); onClose(); }} style={styles.menuItem}>
+      
+      { /* <TouchableOpacity onPress={() => { router.push('/chat'); onClose(); }} style={styles.menuItem}>
         <Ionicons name="logo-octocat" size={24} color="#4C6EF5" />
         <Text style={styles.menuText}>ChatBot</Text>
       </TouchableOpacity> */}
