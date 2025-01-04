@@ -25,6 +25,7 @@ import { useNavigate } from "react-router";
 const AllContents = () => {
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [refetch, setRefetch] = useState(false);
 
   const navigate = useNavigate();
 
@@ -66,12 +67,10 @@ const AllContents = () => {
         htmlContent: JSON.stringify(finalPdf),
       })
       .then((res) => {
-        console.log(res.data);
         window.open(serverUrl + res.data.url, "_blank");
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };
@@ -80,13 +79,28 @@ const AllContents = () => {
     axiosInstance
       .get(`/pdf/user?token=${localStorage.getItem("token")}`)
       .then((res) => {
-        console.log(res.data);
         setContents(res?.data?.userPDFs);
       });
-  }, []);
+  }, [refetch]);
 
   const handleEdit = (id) => {
     navigate(`/dashboard/content-management/new-content?id=${id}`);
+  };
+
+  const handleToggleVisibility = (id, visibility) => {
+    setLoading(true);
+    axiosInstance
+      .put(`/pdf/change?token=${localStorage.getItem("token")}`, {
+        pdfId: id,
+        visibility: visibility === "public" ? "private" : "public",
+      })
+      .then((res) => {
+        setRefetch(!refetch);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -146,6 +160,9 @@ const AllContents = () => {
                               showArrow
                             >
                               <Button
+                                onPress={() =>
+                                  handleToggleVisibility(c.id, c.visibility)
+                                }
                                 isIconOnly
                                 aria-label="Change Visibility"
                                 color="default"
