@@ -56,6 +56,8 @@ const Chatbot = () => {
   const [refetch, setRefetch] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [isPdfMode, setIsPdfMode] = useState(false);
+  const [voiceLoading, setVoiceLoading] = useState(false);
+  const [audioUrl, setAudioUrl] = useState(null);
 
   // Hooks
   // const { chats, createChat } = useChatbot();
@@ -144,32 +146,42 @@ const Chatbot = () => {
 
   const handlePlayVoice = (text) => {
     console.log(text);
+    setVoiceLoading(true);
 
-    if (!("speechSynthesis" in window)) {
-      toast.error("Your browser does not support the Web Speech API.");
-      return;
-    }
-
-    const utterance = new SpeechSynthesisUtterance();
-    utterance.text = text;
-    utterance.lang = "bn-BD"; // Bengali (Bangladesh) language code
-
-    // Check if voices are loaded
-    const voices = window.speechSynthesis.getVoices();
-    const bengaliVoice = voices.find((voice) => voice.lang === "bn-BD");
-
-    if (bengaliVoice) {
-      utterance.voice = bengaliVoice;
-    } else {
-      alert("No Bengali voice is available in your browser.");
-    }
-
-    window.speechSynthesis.speak(utterance);
+    axiosInstance
+      .post(`/ai/generate-voice?token=${localStorage.getItem("token")}`, {
+        prompt: text,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setVoiceLoading(false);
+        setAudioUrl(res?.data?.audio);
+      })
+      .catch(() => {
+        setVoiceLoading(false);
+      });
   };
+
+  useEffect(() => {
+    // Play the audio as soon as the URL is set
+    if (audioUrl) {
+      const audio = new Audio(audioUrl);
+      audio.play().catch((error) => {
+        console.error("Audio playback failed:", error);
+      });
+    }
+  }, [audioUrl]);
 
   return (
     <>
       <div>
+        {voiceLoading && (
+          <div className="absolute bg-[rgba(0,0,0,0.8)] rounded-lg h-[80vh] w-[80vw] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10">
+            <h1 className="animate-pulse relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+              Voice Loading...
+            </h1>
+          </div>
+        )}
         <PageHeader breadcrumbLinks={breadcrumbLinks} />
 
         <div className="p-4 grid grid-cols-4 gap-4">
