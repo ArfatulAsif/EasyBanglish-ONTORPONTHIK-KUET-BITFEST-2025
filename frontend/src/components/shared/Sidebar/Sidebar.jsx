@@ -7,6 +7,7 @@ import { Avatar, Tooltip } from "@nextui-org/react";
 import { Link } from "react-router";
 import { IoHome } from "react-icons/io5";
 import userImage from "../../../assets/images/user.png";
+import bangla from "../../../assets/images/bangla.png";
 
 const SidebarContext = createContext();
 
@@ -28,7 +29,7 @@ export default function Sidebar({ children }) {
               className={`hover:scale-105 overflow-hidden transition-all ${
                 expanded ? "w-32 h-32" : "w-0 h-0"
               }`}
-              src={user?.image || userImage}
+              src={bangla}
             />
           </div>
 
