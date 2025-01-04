@@ -1,3 +1,4 @@
+import { PiUserSound } from "react-icons/pi";
 import { RxCopy } from "react-icons/rx";
 import { RiRobot3Line } from "react-icons/ri";
 import { BsChatLeftText, BsSendArrowUp } from "react-icons/bs";
@@ -139,6 +140,31 @@ const Chatbot = () => {
           setLoading(false);
         });
     }
+  };
+
+  const handlePlayVoice = (text) => {
+    console.log(text);
+
+    if (!("speechSynthesis" in window)) {
+      toast.error("Your browser does not support the Web Speech API.");
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance();
+    utterance.text = text;
+    utterance.lang = "bn-BD"; // Bengali (Bangladesh) language code
+
+    // Check if voices are loaded
+    const voices = window.speechSynthesis.getVoices();
+    const bengaliVoice = voices.find((voice) => voice.lang === "bn-BD");
+
+    if (bengaliVoice) {
+      utterance.voice = bengaliVoice;
+    } else {
+      alert("No Bengali voice is available in your browser.");
+    }
+
+    window.speechSynthesis.speak(utterance);
   };
 
   return (
@@ -323,6 +349,15 @@ const Chatbot = () => {
                         </div>
                         {message.sender === "bot" && (
                           <>
+                            <div
+                              onClick={() => handlePlayVoice(message.text)}
+                              className="group flex gap-2 items-center h-[20px] ml-3 mt-2 cursor-pointer"
+                            >
+                              <PiUserSound className="group-hover:text-primary transition-all duration-200" />
+                              <span className="text-white group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-200">
+                                Play Voice
+                              </span>
+                            </div>
                             <div
                               onClick={() => copyToClipboard(message.text)}
                               className="group flex gap-2 items-center h-[20px] ml-3 mt-2 cursor-pointer"

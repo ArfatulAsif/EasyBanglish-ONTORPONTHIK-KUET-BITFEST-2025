@@ -6,10 +6,9 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-  Link,
   Button,
 } from "@nextui-org/react";
-import { Link as RouterLink } from "react-router";
+import { Link, Link as RouterLink } from "react-router";
 import { useContext, useState } from "react";
 import Logo from "../Logo/Logo";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -52,19 +51,14 @@ const CustomNavbar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
         <NavbarItem isActive>
-          <Link aria-current="page" href="#">
-            Customers
+          <Link to="/" className="text-primary">
+            Home
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
+          <Link color="foreground" to="/dashboard">
+            Dashboard
           </Link>
         </NavbarItem>
       </NavbarContent>

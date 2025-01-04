@@ -1,7 +1,13 @@
+import Logo from "../../components/shared/Logo/Logo";
+import FeatureSection from "./FeatureSection";
+import HeroSection from "./HeroSection";
+
 const Home = () => {
   return (
     <div>
-      <h1>this is home</h1>
+      <HeroSection />
+
+      <FeatureSection />
     </div>
   );
 };

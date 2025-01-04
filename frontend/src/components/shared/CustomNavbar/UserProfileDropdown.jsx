@@ -32,11 +32,11 @@ export default function UserProfileDropdown() {
               <p className="font-semibold">{user?.name}</p>
             </Link>
           </DropdownItem>
-          <DropdownItem key="settings">
+          {/* <DropdownItem key="settings">
             <Link to="/dashboard/settings">
               <h1>My Settings</h1>
             </Link>
-          </DropdownItem>
+          </DropdownItem> */}
           {/* <DropdownItem key="team_settings">Team Settings</DropdownItem>
           <DropdownItem key="analytics">Analytics</DropdownItem>
           <DropdownItem key="system">System</DropdownItem>
