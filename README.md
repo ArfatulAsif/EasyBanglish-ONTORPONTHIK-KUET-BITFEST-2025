@@ -178,4 +178,4 @@ You can use our system with the following credentials:
 
 ### Entity Relationship Diagram
 
-[![Entity Relationship Diagram](https://i.ibb.co.com/6yb9FRd/Schema.png)
+[![Entity Relationship Diagram](https://i.ibb.co.com/cvGf8yy/Schema.png)
