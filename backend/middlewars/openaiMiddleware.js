@@ -368,7 +368,7 @@ const openaiMiddleware = {
       }));
 
       // Format the AI prompt based on the found PDFs
-      const aiPrompt = `You have a list of PDFs with the following details. Your task is to analyze the user's input and provide the best answer based on the information in these PDFs.\n\nPDFs: \n${JSON.stringify(pdfData)}\n\nUser's question: "${text}".\n\nProvide the most relevant answer based on these PDFs.
+      const aiPrompt = `You have a list of PDFs with the following details. Your task is to analyze the user's input and provide the best answer based on the information in these PDFs in only bengali language.\n\nPDFs: \n${JSON.stringify(pdfData)}\n\nUser's question: "${text}".\n\nProvide the most relevant answer based on these PDFs.
        After giving the answer, also reference the PDF it was derived from, including the PDF maker's name and title. Give the solution in maximum 4 lines.`;
 
       // Call the AI model to generate the response
