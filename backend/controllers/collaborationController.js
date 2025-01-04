@@ -105,7 +105,7 @@ const getCollaborationsByUser = async (req, res) => {
   
       const collaboration = await prisma.collaboration.findUnique({
         where: {
-          id: parseInt(collabId, 10),
+          id: parseInt(collabId),
         },
         select: {
           id: true,
