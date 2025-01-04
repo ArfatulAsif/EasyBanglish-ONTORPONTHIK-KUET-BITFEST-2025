@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  Linking,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,34 +15,29 @@ const HomeScreen = () => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const recentActivities = [
-    { title: 'Exploring Nature', id: 1 },
-    { title: 'A Day in the Life', id: 2 },
-    { title: 'Understanding AI', id: 3 },
-    { title: 'The Beauty of Rain', id: 4 },
-    { title: 'A Journey to the Stars', id: 5 },
-  ];
-
-  const savedPDFs = [
-    'Nature_Exploration.pdf',
-    'Life_Journey.pdf',
-    'AI_Tutorial.pdf',
-    'Rain_Stories.pdf',
-    'Star_Journey.pdf',
-    'Random_Writings.pdf',
-  ];
+  const [pdfs, setPdfs] = useState([]);
 
   const fetchUserData = async () => {
     try {
       const storedData = await AsyncStorage.getItem('data');
       if (storedData) {
         setUserData(JSON.parse(storedData));
+        await fetchUserPDFs(JSON.parse(storedData).token);
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUserPDFs = async (token) => {
+    try {
+      const response = await fetch(`http://192.168.14.51:8000/pdf/user?token=${token}`);
+      const data = await response.json();
+      setPdfs(data.userPDFs);
+    } catch (error) {
+      console.error('Error fetching PDFs:', error);
     }
   };
 
@@ -60,6 +62,8 @@ const HomeScreen = () => {
     );
   }
 
+  const recentActivities = pdfs.slice(0, 5);
+
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <Text style={styles.welcomeText}>Welcome, {userData.user.name}!</Text>
@@ -78,24 +82,29 @@ const HomeScreen = () => {
       <Text style={styles.sectionHeader}>Recent Activities</Text>
       <View style={styles.activitiesContainer}>
         {recentActivities.map((activity) => (
-          <TouchableOpacity
-            key={activity.id}
-            style={styles.activityItem}
-            onPress={() => router.push(`/write/${activity.id}`)}
-          >
+          <TouchableOpacity key={activity.id} style={styles.activityItem}>
             <Ionicons name="document-text-outline" size={20} color="#4C6EF5" />
-            <Text style={styles.activityText}>{activity.title}</Text>
+            <Text style={styles.activityText}>{activity.titleBanglish}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
       <Text style={styles.sectionHeader}>Saved Contents</Text>
       <View style={styles.pdfContainer}>
-        {savedPDFs.map((pdf, index) => (
-          <View key={index} style={styles.pdfItem}>
+        {pdfs.map((pdf) => (
+          <TouchableOpacity
+            key={pdf.id}
+            style={styles.pdfItem}
+            onPress={() => {
+              const pdfLink = `http://192.168.14.51:8000/pdfs/${pdf.id}-${pdf.titleBangla}.pdf`;
+              Linking.openURL(pdfLink).catch((err) =>
+                console.error('Failed to open link:', err)
+              );
+            }}
+          >
             <Ionicons name="document-outline" size={40} color="#FF5733" />
-            <Text style={styles.pdfText}>{pdf}</Text>
-          </View>
+            <Text style={styles.pdfText}>{pdf.titleBangla}</Text>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>

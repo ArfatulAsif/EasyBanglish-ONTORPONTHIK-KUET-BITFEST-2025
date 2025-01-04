@@ -20,6 +20,8 @@ const FindPDFPage = () => {
       });
 
       const responseData = await response.json();
+      
+      
       if (response.ok && responseData) {
         setFilteredPDFs(responseData);
       } else {
@@ -62,7 +64,11 @@ const FindPDFPage = () => {
                 style={styles.pdfItem}
                 onPress={() => {
                   const pdfLink = `http://192.168.14.51:8000/pdfs/${pdf.id}-${pdf.titleBangla}.pdf`;
-                    Linking.openURL().catch((err) =>
+                  
+
+                   
+
+                    Linking.openURL(pdfLink).catch((err) =>
                       console.error("Failed to open link:", err)
                     );
                   

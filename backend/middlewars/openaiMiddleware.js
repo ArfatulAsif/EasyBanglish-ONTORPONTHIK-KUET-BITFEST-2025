@@ -239,6 +239,8 @@ const openaiMiddleware = {
   generateVoice: async(prompt)=> {
     try {
       
+      // Modify the prompt to specify Bengali text
+      const bengaliPrompt = `Convert the following banglish text into voice in Bengali: ${prompt}`;
       // Generate an audio response to the given prompt
       const response = await openai.chat.completions.create({
         model: "gpt-4o-audio-preview",
@@ -247,7 +249,7 @@ const openaiMiddleware = {
         messages: [
           {
             role: "user",
-            content: prompt
+            content: bengaliPrompt
           }
         ]
       });

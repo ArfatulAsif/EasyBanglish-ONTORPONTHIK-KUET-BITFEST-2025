@@ -1,46 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const baseUrl = "http://192.168.14.51:8000"; // Your base API URL
+
+// Define the message type
+interface Message {
+  id: number;
+  text: string;
+  sender: 'user' | 'bot';
+}
 
 const ChatPage = () => {
-  const [messages, setMessages] = useState([
-    { id: 1, text: 'Hello! How can I assist you today?', sender: 'bot' },
-    { id: 2, text: 'I am looking for help with my account.', sender: 'user' },
-    { id: 3, text: 'Sure! I can help you with that. What exactly do you need assistance with?', sender: 'bot' },
-    { id: 4, text: 'I forgot my password. Can you help me reset it?', sender: 'user' },
-    { id: 5, text: 'I can assist with that. Please follow the instructions sent to your email.', sender: 'bot' },
-  ]);
+  // Initialize the messages state with the correct type
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
-  const [isVoiceInput, setIsVoiceInput] = useState(false);  // State to handle voice input mode
+  const [loading, setLoading] = useState(false);
 
-  const handleSendMessage = () => {
-    if (inputText.trim()) {
-      const newMessage = { id: messages.length + 1, text: inputText, sender: 'user' };
-      setMessages([...messages, newMessage]);
-      setInputText('');
-      
-      // Simulate a bot response after user input
-      setTimeout(() => {
-        const botMessage = { id: messages.length + 2, text: 'I am a chatbot! How can I help you?', sender: 'bot' };
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-      }, 1000); // Simulate bot delay
+  // Fetch chats on component mount
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          const response = await axios.get(`${baseUrl}/chat/chats?token=${token}`);
+          setMessages(response?.data?.chats?.reverse() || []);
+        }
+      } catch (error) {
+        console.error('Error fetching chats:', error);
+      }
+    };
+    fetchChats();
+  }, []);
+
+  // Handle sending a new message
+  const handleSendMessage = async () => {
+    if (inputText.trim() === '') return; // Prevent sending empty messages
+    setLoading(true);
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
+      try {
+        // Send the user's message to the server
+        const response = await axios.post(`${baseUrl}/chat/message?token=${token}`, {
+          text: inputText,
+        });
+
+        // Check if the server returns messages properly
+        if (response.data?.messages) {
+          // Assuming response.data.messages contains the updated chat
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { id: prevMessages.length + 1, text: inputText, sender: 'user' },
+            ...response.data.messages,
+          ]);
+        } else {
+          // In case the response doesn't contain messages, log it for debugging
+          console.log('Error: Response does not contain messages', response.data);
+        }
+
+        setInputText(''); // Clear input field after sending
+      } catch (error) {
+        console.error('Error sending message:', error.response || error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  const handleVoiceInput = () => {
-    setIsVoiceInput(!isVoiceInput); // Toggle voice input mode
-    if (isVoiceInput) {
-      setInputText(''); // Clear text input when switching back from voice input
-    }
-  };
-
+  // Clear the chat
   const clearChats = () => {
-    // Add the chat clearing functionality later
-    console.log("Chats cleared");
-    setMessages([]);  // Clear all messages
+    setMessages([]);
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item }: { item: Message }) => {
     return (
       <View
         style={[
@@ -65,7 +99,6 @@ const ChatPage = () => {
       <View style={styles.header}>
         <Ionicons name="logo-reddit" size={35} color="#FFFFFF" />
         <Text style={styles.headerText}>Chat with Bot</Text>
-        {/* Circular Button to Clear Chats */}
         <TouchableOpacity style={styles.clearButton} onPress={clearChats}>
           <Ionicons name="close-circle" size={30} color="#fff" />
         </TouchableOpacity>
@@ -82,18 +115,16 @@ const ChatPage = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.inputContainer}
       >
-         
-          <TextInput
-            style={styles.input}
-            value={inputText}
-            onChangeText={setInputText}
-            placeholder="Type a message..."
-            placeholderTextColor="#999"
-          />
-        
+        <TextInput
+          style={styles.input}
+          value={inputText}
+          onChangeText={setInputText} // Ensure this is correctly updating the state
+          placeholder="Type a message..."
+          placeholderTextColor="#999"
+        />
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.voiceButton} onPress={handleVoiceInput}>
+          <TouchableOpacity style={styles.pdfButton} onPress={() => {}}>
             <Ionicons name="receipt-outline" size={24} color="#fff" />
           </TouchableOpacity>
 
@@ -118,7 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4C6EF5',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    justifyContent: 'space-between',  // This will ensure the button is positioned to the right
+    justifyContent: 'space-between',
   },
   headerText: {
     fontSize: 22,
@@ -126,13 +157,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   clearButton: {
-    backgroundColor: '#FF4D4D', // You can adjust the color as needed
+    backgroundColor: '#FF4D4D',
     padding: 10,
-    borderRadius: 25, // Circular button
+    borderRadius: 25,
   },
   chatList: {
     paddingHorizontal: 10,
-    paddingBottom: 80, // Give space for the input field
+    paddingBottom: 80,
   },
   messageContainer: {
     marginBottom: 15,
@@ -179,7 +210,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  voiceButton: {
+  pdfButton: {
     backgroundColor: '#4C6EF5',
     padding: 10,
     borderRadius: 20,

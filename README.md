@@ -46,6 +46,11 @@
 -   ![bcryptjs](https://i.ibb.co/gM8Kn7Q/image-11.png) **bcryptjs**: For hashing passwords.
 -   ![JWT](https://img.icons8.com/?size=48&id=rHpveptSuwDz&format=png) **JSON Web Token (JWT)**: For secure authorization.
 
+
+### Real-time Communication
+-   ![WebSocket](https://img.icons8.com/?size=48&id=w5sIMk4Aq7vb&format=png) **WebSocket**: For real-time communication, enabling instant message updates and notifications.
+
+
 ### Utilities
 
 -   ![Axios](https://i.ibb.co/PwYcWwj/image-5.png) **Axios**: For making HTTP requests from the frontend.
@@ -99,6 +104,9 @@
 
 ### 5. **Dockerization**  
 - **Containerized Deployment**: Dockerize the application to ensure consistent environments across development, testing, and production, improving the portability and scalability of the application.
+
+### 6. **Real-Time Communication**   
+- **Live Collaboration**: Enable multiple users to collaborate in real-time, sharing updates and changes instantly.
 
 
 ## Role-based Access Control 🚪
