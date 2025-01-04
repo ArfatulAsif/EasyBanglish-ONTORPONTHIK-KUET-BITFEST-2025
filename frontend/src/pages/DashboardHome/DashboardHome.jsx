@@ -73,7 +73,7 @@ const DashboardHome = () => {
             </div>
             <DashboardCard
               title={analyticsData?.messageCount}
-              subtitle={"Message Count"}
+              subtitle={"Chatbot Interactions"}
               icon={<BiConversation className="text-2xl" />}
             />
             <DashboardCard
@@ -103,7 +103,7 @@ const DashboardHome = () => {
                 <TableColumn>User ID</TableColumn>
                 <TableColumn>Name</TableColumn>
                 <TableColumn>Email</TableColumn>
-                <TableColumn>Message Count</TableColumn>
+                <TableColumn>Chatbot Interactions</TableColumn>
                 <TableColumn>Translated Words</TableColumn>
                 <TableColumn>Written Stories</TableColumn>
               </TableHeader>
