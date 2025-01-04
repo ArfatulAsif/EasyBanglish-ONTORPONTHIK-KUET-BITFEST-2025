@@ -66,7 +66,7 @@ const DashboardContentManagement = () => {
 
         {/* Collaborate */}
         <SectionCard
-          title={"Collaborate"}
+          title={"Collaborate With Others"}
           icon={<MdOutlineGroup className="text-2xl" />}
           to="collaborate"
           loading={false}
