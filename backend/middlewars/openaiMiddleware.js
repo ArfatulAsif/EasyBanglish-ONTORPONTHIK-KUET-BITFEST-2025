@@ -187,7 +187,7 @@ const openaiMiddleware = {
       const response = await openai.chat.completions.create({
         model: 'gpt-4',
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 150, // Limit the token usage for the response
+        max_tokens: 500, // Limit the token usage for the response
       });
   
       // Extract response content
