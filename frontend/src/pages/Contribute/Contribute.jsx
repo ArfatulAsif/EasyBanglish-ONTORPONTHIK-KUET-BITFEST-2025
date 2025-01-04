@@ -46,7 +46,7 @@ const Contribute = () => {
         <h1 className="text-xl flex gap-3 items-center justify-center h-full mt-4 mb-8">
           <LuHeartHandshake className="text-3xl text-primary" />
           <span className="font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
-            Contribute by Adding Banglish and Bangla Translation
+            Contribute To System Improvement
           </span>
         </h1>
 
