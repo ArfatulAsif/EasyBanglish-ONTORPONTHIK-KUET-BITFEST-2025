@@ -35,6 +35,15 @@
 -   ![express-rate-limit](https://i.ibb.co/2hfbCSP/image-9.png) **express-rate-limit**: For rate limiting to enhance security.
 -   ![nodemailer](https://i.ibb.co/KzyKbvM/image-10.png) **nodemailer**: For sending emails.
 
+### Mobile App
+
+-   ![React Native](https://img.icons8.com/color/48/000000/react-native.png) **React Native**: For building cross-platform mobile applications with a native-like experience.  
+-   ![Expo](https://img.icons8.com/color/48/000000/expo.png) **Expo**: A framework and platform for React Native apps, used to simplify development and testing.  
+-   ![React Navigation](https://img.icons8.com/color/48/000000/react.png) **React Navigation**: For implementing seamless navigation between screens in the mobile app.  
+-   ![Axios](https://img.icons8.com/color/48/000000/cloud.png) **Axios**: For handling API calls efficiently in the app.  
+-   ![AsyncStorage](https://img.icons8.com/ios/50/000000/database.png) **AsyncStorage**: For storing small amounts of data locally on the user’s device.  
+
+
 ### Database
 
 -   ![PostgreSQL](https://img.icons8.com/color/48/000000/postgreesql.png) **PostgreSQL**: A powerful, open-source relational database system.
@@ -178,4 +187,13 @@ You can use our system with the following credentials:
 
 ### Entity Relationship Diagram
 
-[![Entity Relationship Diagram](https://i.ibb.co.com/cvGf8yy/Schema.png)
+![Entity Relationship Diagram](https://i.ibb.co.com/cvGf8yy/Schema.png)
+
+### Apps Activity Diagram
+
+![Apps Activity Diagram](https://i.ibb.co.com/GC7WtwP/Blank-diagram-1-1.jpg)
+
+### WebApp Activity Diagram
+
+![WebApp Activity Diagram](https://i.ibb.co.com/hfmszPc/Blank-diagram-3-1.jpg)
+
