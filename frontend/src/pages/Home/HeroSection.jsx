@@ -3,7 +3,7 @@ import voice from "../../assets/images/voice.png";
 import editor from "../../assets/images/editor.png";
 import search from "../../assets/images/search.png";
 import group from "../../assets/images/group.png";
-import docker from "../../assets/images/docker.png";
+import dashboard from "../../assets/images/dashboard.png";
 
 const HeroSection = () => {
   return (
@@ -56,7 +56,7 @@ const HeroSection = () => {
         />
 
         <img
-          src={docker}
+          src={dashboard}
           alt="Icon 2"
           className="float-animation anim-delay-6 absolute bottom-[43vh] right-[12vw] hidden md:block md:h-[80px] md:w-[80px] lg:h-[90px] lg:w-[90px]"
         />

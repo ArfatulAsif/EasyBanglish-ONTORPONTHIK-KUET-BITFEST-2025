@@ -3,7 +3,8 @@ import voice from "../../assets/images/voice.png";
 import editor from "../../assets/images/editor.png";
 import search from "../../assets/images/search.png";
 import group from "../../assets/images/group.png";
-import docker from "../../assets/images/docker.png";
+import dashboard from "../../assets/images/dashboard.png";
+import bangladesh from "../../assets/images/bangladesh.png";
 
 const FeatureSection = () => {
   return (
@@ -36,9 +37,7 @@ const FeatureSection = () => {
           />
 
           <FeatureCard
-            image={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjsJg0VZ_OohPt6dIBkUV2kloFjIo-7M0q2Q&s"
-            }
+            image={bangladesh}
             title={"Customizable Bangla Fonts for PDFs"}
             subTitle={
               "Allow users to choose from various Bangla fonts when generating PDFs."
@@ -62,9 +61,7 @@ const FeatureSection = () => {
           />
 
           <FeatureCard
-            image={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjsJg0VZ_OohPt6dIBkUV2kloFjIo-7M0q2Q&s"
-            }
+            image={dashboard}
             title={"Analytics Dashboard"}
             subTitle={
               "Provide an analytics dashboard displaying metrics such as words translated, stories etc."
