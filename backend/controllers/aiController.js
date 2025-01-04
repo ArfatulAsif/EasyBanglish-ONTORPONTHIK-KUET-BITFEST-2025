@@ -109,7 +109,7 @@ exports.generateJSON = async (req, res) => {
     const { titleBangla, titleBanglish, captionBangla, captionBanglish } = jsonData;
 
     // Save the data to the database
-    const newPdf = await prisma.pdf.create({
+    const newPdf = await prismaClient.pdf.create({
       data: {
         userId: req.user.id, // Extracted from the authenticated user
         titleBangla,
@@ -125,13 +125,13 @@ exports.generateJSON = async (req, res) => {
     });
 
     // Check if the user has an existing Analytics record
-    const existingAnalytics = await prisma.analytics.findFirst({
+    const existingAnalytics = await prismaClient.analytics.findFirst({
       where: { userId: req.user.id },
     });
 
     if (existingAnalytics) {
       // If the user already has an analytics record, increase the writtenStories count by 1
-      await prisma.analytics.update({
+      await prismaClient.analytics.update({
         where: { id: existingAnalytics.id },
         data: {
           writtenStories: existingAnalytics.writtenStories + 1,
@@ -139,7 +139,7 @@ exports.generateJSON = async (req, res) => {
       });
     } else {
       // If the user doesn't have an analytics record, create a new one with writtenStories = 1
-      await prisma.analytics.create({
+      await prismaClient.analytics.create({
         data: {
           userId: req.user.id,
           writtenStories: 1, // Starting with 1 written story
@@ -291,7 +291,7 @@ exports.getText = async (req, res) => {
       }
   
       // Find the PDF record by ID
-      const pdf = await prisma.pdf.findUnique({
+      const pdf = await prismaClient.pdf.findUnique({
         where: { id: pdfId },
       });
   
@@ -300,7 +300,7 @@ exports.getText = async (req, res) => {
       }
   
       // Update the Bangla text
-      const updatedPdf = await prisma.pdf.update({
+      const updatedPdf = await prismaClient.pdf.update({
         where: { id: pdfId },
         data: {
           banglaText: newBanglaText, // Update the Bangla text field
