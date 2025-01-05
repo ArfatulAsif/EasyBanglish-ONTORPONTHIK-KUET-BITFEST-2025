@@ -35,7 +35,7 @@
 -   ![express-rate-limit](https://i.ibb.co/2hfbCSP/image-9.png) **express-rate-limit**: For rate limiting to enhance security.
 -   ![nodemailer](https://i.ibb.co/KzyKbvM/image-10.png) **nodemailer**: For sending emails.
 
-### Mobile App
+## Mobile App
 
 -   ![React Native](https://img.icons8.com/color/48/000000/react-native.png) **React Native**: For building cross-platform mobile applications with a native-like experience.  
 -   ![Expo](https://img.icons8.com/color/48/000000/expo.png) **Expo**: A framework and platform for React Native apps, used to simplify development and testing.  
@@ -221,7 +221,40 @@ You can use our system with the following credentials:
 
 <img src = "images1/Activity Diagram.jpeg">
 
+# EasyBanglish Mobile App
+
+## 1. Authentication
+
+<img src = "images/1.jpeg">
+<img src = "images/2.jpeg">
+<img src = "images/3.jpeg">
+
+## 2. Home Page 
+
+<img src = "images/4.jpeg">
+
+## 3. Profile
+
+<img src = "images/8.jpeg">
+
+## 4. User Search
+
+<img src = "images/5.jpeg">
+
+## 5. User Profile 
+
+<img src = "images/6.jpeg">
+
+## 6. Pdf Search
+
+<img src = "images/7.jpeg">
+
 ## Apps Activity Diagram
 
 <img src = "images/Activity Diagram.jpeg">
+
+
+## Thank You! 
+
+![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
