@@ -80,64 +80,64 @@
 <img src = "images1/4.jpeg">
 <img src = "images1/5.jpeg">
 
-### 3. **Content Management**  
+## 3. **Content Management**  
 - **Content Creation**: Text editor for users to write in Banglish and convert to Bangla.  
 - **PDF Export**: Export content as PDFs, with public or private settings from user profiles.  
 - **Caption Generation**: Automatically generate title and caption for PDFs using AI.
 
 <img src = "images1/4.1.jpeg">
 
-### 4. **Search Functionality**  
+## 4. **Search Functionality**  
 - **App-Wide Search**: Search PDFs and user profiles in both Bangla and Banglish.
 
 <img src = "images1/6.jpeg">
 <img src = "images1/6.1.jpeg">
 
-### 5. **Chatbot Integration**  
+## 5. **Chatbot Integration**  
 - **Banglish Chatbot**: A chatbot that understands and responds in Banglish/Bangla.  
 - **PDF-Based Query Handling**: Chatbot to access and reference content from user-uploaded PDFs.
 
 <img src = "images1/7.jpeg">
 
-### 6. **Translation System Improvement**  
+## 6. **Translation System Improvement**  
 - **Training with Continuous Learning**: Users contribute Banglish and Bangla pairs for model improvement, verified by admins.
 
 <img src = "images1/8.jpeg">
 <img src = "images1/9.jpeg">
 
-### 7. **User Interface and Experience**  
+## 7. **User Interface and Experience**  
 - **Comprehensive UI/UX**: A clean and intuitive interface for a seamless user experience.
 
-### 8. **Backend and Infrastructure**  
+## 8. **Backend and Infrastructure**  
 - **Database Integration**: Scalable backend to manage user data, translations, and files.  
 - **Environment File**: Maintain an `.env` file for consistent development, testing, and deployment.
 
 
-## Bonus Features
+# Bonus Features
 
-### 1. **Voice Interaction**  
+## 1. **Voice Interaction**  
 - **Hands-free Content Generation**: Embed voice functionality for users to input text using voice in both Bangla and English, with content in Bangla.  
 - **Voice Assistant**: Enable the chatbot to respond with voice outputs in Bangla, offering a hands-free, interactive experience.
 
 <img src = "images1/10.jpeg">
 
-### 2. **Smart Editor**  
+## 2. **Smart Editor**  
 - **Auto-Correction for Banglish Inputs**: Enhance the translation system by detecting and correcting common Banglish typing errors.
 
-### 3. **Analytics Dashboard**  
+## 3. **Analytics Dashboard**  
 - **User Insights and Metrics**: Provide an analytics dashboard displaying metrics such as words translated, stories written, chatbot interactions, and other engagement statistics.
 
 <img src = "images1/11.jpeg">
 
-### 4. **Customizable Bangla Fonts for PDFs**  
+## 4. **Customizable Bangla Fonts for PDFs**  
 - **Font Selection**: Allow users to choose from various Bangla fonts when generating PDFs.
 
 <img src = "images1/5.jpeg">
 
-### 5. **Dockerization**  
+## 5. **Dockerization**  
 - **Containerized Deployment**: Dockerize the application to ensure consistent environments across development, testing, and production, improving the portability and scalability of the application.
 
-### 6. **Real-Time Communication**   
+## 6. **Real-Time Communication**   
 - **Live Collaboration**: Enable multiple users to collaborate in real-time, sharing updates and changes instantly.
 
 <img src = "images1/12.jpeg">
@@ -153,7 +153,7 @@ EasyBanglish implements role-based access control (RBAC) to manage user permissi
 <img src = "images1/14.jpeg">
 
 
-## Getting Started 🚀
+# Getting Started 🚀
 
 ### Using Docker 🐳
 
@@ -210,17 +210,18 @@ You can use our system with the following credentials:
 
 -   Chrome
 
-## Diagrams and Workflows 📊
+# Diagrams and Workflows 📊
 
-### Entity Relationship Diagram
+## Entity Relationship Diagram
 
 ![Entity Relationship Diagram](https://i.ibb.co.com/cvGf8yy/Schema.png)
 
-### Apps Activity Diagram
-
-![Apps Activity Diagram](https://i.ibb.co.com/GC7WtwP/Blank-diagram-1-1.jpg)
 
 ### WebApp Activity Diagram
 
 ![WebApp Activity Diagram](https://i.ibb.co.com/hfmszPc/Blank-diagram-3-1.jpg)
+
+### Apps Activity Diagram
+
+![Apps Activity Diagram](https://i.ibb.co.com/GC7WtwP/Blank-diagram-1-1.jpg)
 
