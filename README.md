@@ -1,6 +1,6 @@
 # TEAM ONTORPONTHIK
 
-## Project - EasyBanglish 🌍
+## Project - EasyBanglish
 
 ![Logo](https://i.ibb.co.com/d4VgQTn/Screenshot-20250104-020436-Expo-Go.jpg)
 
