@@ -214,14 +214,14 @@ You can use our system with the following credentials:
 
 ## Entity Relationship Diagram
 
-![Entity Relationship Diagram](https://i.ibb.co.com/cvGf8yy/Schema.png)
+<img src = "images1/Entity Relationship Diagram.png">
 
 
-### WebApp Activity Diagram
+## WebApp Activity Diagram
 
-![WebApp Activity Diagram](https://i.ibb.co.com/hfmszPc/Blank-diagram-3-1.jpg)
+<img src = "images1/Activity Diagram.jpeg">
 
-### Apps Activity Diagram
+## Apps Activity Diagram
 
-![Apps Activity Diagram](https://i.ibb.co.com/GC7WtwP/Blank-diagram-1-1.jpg)
+<img src = "images/Activity Diagram.jpeg">
 
