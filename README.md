@@ -64,22 +64,34 @@
 
 -   ![Axios](https://i.ibb.co/PwYcWwj/image-5.png) **Axios**: For making HTTP requests from the frontend.
 
-## Core Features
+# Core Features
 
-### 1. **Authentication**  
+## 1. **Authentication**  
 - **Login & Registration**: Secure login and registration for user-specific experiences.  
 - **Secure API Calling**: Protect all API endpoints with robust security to ensure authorized access.
 
-### 2. **Banglish to Bangla Conversion**  
+<img src = "images1/1.jpeg">
+<img src = "images1/2.jpeg">
+<img src = "images1/3.jpeg">
+
+## 2. **Banglish to Bangla Conversion**  
 - **Translation System**: Develop a model for converting Banglish to Bangla with high accuracy.
+
+<img src = "images1/4.jpeg">
+<img src = "images1/5.jpeg">
 
 ### 3. **Content Management**  
 - **Content Creation**: Text editor for users to write in Banglish and convert to Bangla.  
 - **PDF Export**: Export content as PDFs, with public or private settings from user profiles.  
 - **Caption Generation**: Automatically generate title and caption for PDFs using AI.
 
+<img src = "images1/4.1.jpeg">
+
 ### 4. **Search Functionality**  
 - **App-Wide Search**: Search PDFs and user profiles in both Bangla and Banglish.
+
+<img src = "images1/6.jpeg">
+<img src = "images1/6.1.jpeg">
 
 ### 5. **Chatbot Integration**  
 - **Banglish Chatbot**: A chatbot that understands and responds in Banglish/Bangla.  
