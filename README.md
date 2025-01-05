@@ -97,8 +97,13 @@
 - **Banglish Chatbot**: A chatbot that understands and responds in Banglish/Bangla.  
 - **PDF-Based Query Handling**: Chatbot to access and reference content from user-uploaded PDFs.
 
+<img src = "images1/7.jpeg">
+
 ### 6. **Translation System Improvement**  
 - **Training with Continuous Learning**: Users contribute Banglish and Bangla pairs for model improvement, verified by admins.
+
+<img src = "images1/8.jpeg">
+<img src = "images1/9.jpeg">
 
 ### 7. **User Interface and Experience**  
 - **Comprehensive UI/UX**: A clean and intuitive interface for a seamless user experience.
@@ -114,14 +119,20 @@
 - **Hands-free Content Generation**: Embed voice functionality for users to input text using voice in both Bangla and English, with content in Bangla.  
 - **Voice Assistant**: Enable the chatbot to respond with voice outputs in Bangla, offering a hands-free, interactive experience.
 
+<img src = "images1/10.jpeg">
+
 ### 2. **Smart Editor**  
 - **Auto-Correction for Banglish Inputs**: Enhance the translation system by detecting and correcting common Banglish typing errors.
 
 ### 3. **Analytics Dashboard**  
 - **User Insights and Metrics**: Provide an analytics dashboard displaying metrics such as words translated, stories written, chatbot interactions, and other engagement statistics.
 
+<img src = "images1/11.jpeg">
+
 ### 4. **Customizable Bangla Fonts for PDFs**  
 - **Font Selection**: Allow users to choose from various Bangla fonts when generating PDFs.
+
+<img src = "images1/5.jpeg">
 
 ### 5. **Dockerization**  
 - **Containerized Deployment**: Dockerize the application to ensure consistent environments across development, testing, and production, improving the portability and scalability of the application.
@@ -129,6 +140,7 @@
 ### 6. **Real-Time Communication**   
 - **Live Collaboration**: Enable multiple users to collaborate in real-time, sharing updates and changes instantly.
 
+<img src = "images1/12.jpeg">
 
 ## Role-based Access Control 🚪
 
@@ -136,6 +148,9 @@ EasyBanglish implements role-based access control (RBAC) to manage user permissi
 
 - **Administrator**: Has full access to maximum features and functionalities of the system, including user management, contribution verification, and view analytics.
 - **User**: Limited access to view data and reports.
+
+<img src = "images1/13.jpeg">
+<img src = "images1/14.jpeg">
 
 
 ## Getting Started 🚀
