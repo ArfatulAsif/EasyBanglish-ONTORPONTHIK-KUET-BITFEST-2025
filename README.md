@@ -225,29 +225,29 @@ You can use our system with the following credentials:
 
 ## 1. Authentication
 
-<img src = "images/1.jpeg">
-<img src = "images/2.jpeg">
-<img src = "images/3.jpeg">
+<img src="images/1.jpeg" width="300">
+<img src="images/2.jpeg" width="300">
+<img src="images/3.jpeg" width="300">
 
 ## 2. Home Page 
 
-<img src = "images/4.jpeg">
+<img src="images/4.jpeg" width="300">
 
 ## 3. Profile
 
-<img src = "images/8.jpeg">
+<img src="images/8.jpeg" width="300">
 
 ## 4. User Search
 
-<img src = "images/5.jpeg">
+<img src="images/5.jpeg" width="300">
 
 ## 5. User Profile 
 
-<img src = "images/6.jpeg">
+<img src="images/6.jpeg" width="300">
 
 ## 6. Pdf Search
 
-<img src = "images/7.jpeg">
+<img src="images/7.jpeg" width="300">
 
 ## Apps Activity Diagram
 
