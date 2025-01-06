@@ -1,1 +1,1 @@
-## This folder contains Screenshots of the EasyBanglish Mobile App
+## This folder contains Screenshots of the EasyBanglish Mobile App & Heckathon Moment
