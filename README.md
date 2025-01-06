@@ -259,6 +259,6 @@ You can use our system with the following credentials:
 ![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 
-## We secured 2nd Runner up position, with this project in KUET BITFEST HECKATHON 2025
+## We secured 2nd Runner up position, with this project in KUET BITFEST HACKATHON 2025
 
 <img src="images/in the Zone.jpg" width="400" height="267">  __   <img src="images/taking prize.jpg" width="400" height="267">
